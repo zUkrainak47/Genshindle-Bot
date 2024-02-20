@@ -179,7 +179,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             print(f"The character does not use a {character.weapon}!")
         else:
             el_weap = [character.weapon.lower()]
-            print(f"The character does uses a {character.weapon}!")
+            print(f"The character uses a {character.weapon}!")
             know_weapon = True
 
     if not know_version:
