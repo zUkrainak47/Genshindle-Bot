@@ -190,7 +190,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
         else:
             print(f"The character did not release in {character.version}!")
             for arrow in arrows:
-                if pyautogui.locateOnScreen(f'{arrow}.png', region=location) is not None:
+                if pyautogui.locateOnScreen(f'{arrow}.png', region=location, confidence=0.95) is not None:
                     arrow_list = arrow.split()[:-1]
                     print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
                     if arrow_list[0] == '1':
