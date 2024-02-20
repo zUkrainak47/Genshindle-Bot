@@ -210,11 +210,18 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
 
 click(1000, 334)
 keyboard.press_and_release('ctrl+0')
-temp = pyautogui.screenshot(region=(1, 1, 2, 2))
-r, g, b = temp.getpixel((1, 1))
-if (r, g, b) != (33, 37, 41):
+temp1 = pyautogui.screenshot(region=(1, 1, 2, 2))
+r1, g1, b1 = temp1.getpixel((1, 1))
+test1 = (r1, g1, b1) == (33, 37, 41)
+temp2 = pyautogui.screenshot(region=(1, 1, 360, 40))
+r2, g2, b2 = temp2.getpixel((358, 36))
+test2 = (r2, g2, b2) == (33, 37, 41)
+temp3 = pyautogui.screenshot(region=(1, 1, 1920, 50))
+r3, g3, b3 = temp3.getpixel((1900, 17))
+test3 = (r3, g3, b3) == (33, 37, 41)
+master_test = test1 and test2 and test3
+if not master_test:
     keyboard.press_and_release('f11')
-
 lost = False
 while not keyboard.is_pressed('ctrl') and not lost:
     know_vision, know_region, know_weapon, know_version = False, False, False, False
