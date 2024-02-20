@@ -1,3 +1,4 @@
+import random
 from pyautogui import *
 import json
 import pyautogui
@@ -189,6 +190,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             know_version = True
         else:
             print(f"The character did not release in {character.version}!")
+            img = pyautogui.screenshot(region=location)
+            img.save(r'.\screenshotttttt.png')
             for arrow in arrows:
                 if pyautogui.locateOnScreen(f'{arrow}.png', region=location, confidence=0.95) is not None:
                     arrow_list = arrow.split()[:-1]
