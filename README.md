@@ -4,7 +4,7 @@ This program automates the genshindle endless mode found at https://genshindle.c
 If you want to use this in normal (daily) mode, refer to line 18 in the code
 
 ### Setup
-Download as zip and extract 👍
+Download ZIP and extract 👍
 
 ### Usage
 Run `genshindle bot except i use brain this time.py` to start automating \
