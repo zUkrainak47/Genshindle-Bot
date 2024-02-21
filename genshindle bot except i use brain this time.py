@@ -302,9 +302,7 @@ temp3 = pyautogui.screenshot(region=(1, 1, 1920, 50))
 r3, g3, b3 = temp3.getpixel((1900, 17))
 test3 = (r3, g3, b3) in colors
 temp4 = pyautogui.screenshot(region=(1, 1, 920, 50))
-r4, g4, b4 = temp4.getpixel((900, 17))
-test4 = (r4, g4, b4) in colors
-master_test = test1 and test2 and test3 and test4
+master_test = test1 and test2 and test3
 if not master_test:
     keyboard.press_and_release('f11')
 lost = False
