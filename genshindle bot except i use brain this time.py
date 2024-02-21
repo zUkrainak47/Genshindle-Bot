@@ -286,17 +286,25 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
 
 
 click(1000, 334)
+grey = (33, 37, 41)
+black = (13, 15, 15)
+gray = (26, 26, 26)
+colors = (grey, black, gray)
 keyboard.press_and_release('ctrl+0')
+sleep(0.05)
 temp1 = pyautogui.screenshot(region=(1, 1, 2, 2))
 r1, g1, b1 = temp1.getpixel((1, 1))
-test1 = (r1, g1, b1) == (33, 37, 41)
-temp2 = pyautogui.screenshot(region=(1, 1, 360, 40))
-r2, g2, b2 = temp2.getpixel((358, 36))
-test2 = (r2, g2, b2) == (33, 37, 41)
+test1 = (r1, g1, b1) in colors
+temp2 = pyautogui.screenshot(region=(1, 1, 360, 10))
+r2, g2, b2 = temp2.getpixel((358, 8))
+test2 = (r2, g2, b2) in colors
 temp3 = pyautogui.screenshot(region=(1, 1, 1920, 50))
 r3, g3, b3 = temp3.getpixel((1900, 17))
-test3 = (r3, g3, b3) == (33, 37, 41)
-master_test = test1 and test2 and test3
+test3 = (r3, g3, b3) in colors
+temp4 = pyautogui.screenshot(region=(1, 1, 920, 50))
+r4, g4, b4 = temp4.getpixel((900, 17))
+test4 = (r4, g4, b4) in colors
+master_test = test1 and test2 and test3 and test4
 if not master_test:
     keyboard.press_and_release('f11')
 lost = False
