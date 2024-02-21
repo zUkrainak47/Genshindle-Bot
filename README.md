@@ -7,4 +7,6 @@ Make sure that the input bar on the wesbite is visible at the time of starting t
 
 The program only supports 1080p screens
 
+If the versions aren't recognized correctly refer to line 210 in the code
+
 To pause the automation hold Ctrl

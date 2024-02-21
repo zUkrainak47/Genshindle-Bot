@@ -189,23 +189,31 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             el_ver = [character.version]
             know_version = True
         else:
-            print(f"The character did not release in {character.version}!")
-            img = pyautogui.screenshot(region=location)
-            img.save(r'.\screenshotttttt.png')
-            for arrow in arrows:
-                if pyautogui.locateOnScreen(f'{arrow}.png', region=location, confidence=0.95) is not None:
-                    arrow_list = arrow.split()[:-1]
-                    print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
-                    if arrow_list[0] == '1':
-                        if arrow_list[1] == 'up':
-                            el_ver = [ver for ver in el_ver if ((ver > character.version) and (ver - character.version <= 1))]
+            try:
+                print(f"The character did not release in {character.version}!")
+                img = pyautogui.screenshot(region=location)
+                img.save(r'.\last arrow seen.png')
+                for arrow in arrows:
+                    if pyautogui.locateOnScreen(f'{arrow}.png', region=location, confidence=0.95) is not None:
+                        arrow_list = arrow.split()[:-1]
+                        print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
+                        if arrow_list[0] == '1':
+                            if arrow_list[1] == 'up':
+                                el_ver = [ver for ver in el_ver if ((ver > character.version) and (ver - character.version <= 1))]
+                            else:
+                                el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver <= 1))]
+                        elif arrow_list[1] == 'up':
+                            el_ver = [ver for ver in el_ver if ((ver > character.version) and (ver - character.version > 1))]
                         else:
-                            el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver <= 1))]
-                    elif arrow_list[1] == 'up':
-                        el_ver = [ver for ver in el_ver if ((ver > character.version) and (ver - character.version > 1))]
-                    else:
-                        el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
-                    break
+                            el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
+                        break
+            except ImageNotFoundException:  # this should NOT occur and if it does, the program will not work optimally.
+                print("I can't see the arrows :(")
+                el_ver = [ver for ver in el_ver if ver != character.version]
+                # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
+                # (take them at 100% window size, in fullscreen and 100% system scale)
+                # if that doesn't help it recognize the arrows i haven't found a better fix yet unfortunately
+
     # print(el_reg, el_vis, el_weap, el_ver)
     print("Possible versions:", el_ver)
     return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version
