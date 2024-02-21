@@ -16,7 +16,7 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4]
-arrows = ["2 down arrowforwriothesley", "1 up arrow", "2 up arrow", "1 down arrow", "1 down arrowagain", "2 down arrow"]
+arrows = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
 try:
