@@ -273,7 +273,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                         file.write(f'\n{character.name}')
                 except FileNotFoundError:
                     with open('arrow.txt', 'w') as file:
-                        file.write('{}')
+                        file.write(f'{character.name}')
 
                 # this should NOT occur and if it does, the program will not work optimally.
                 # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
