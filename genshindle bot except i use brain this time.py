@@ -1,3 +1,8 @@
+# import pytesseract as pyt
+# from pytesseract import Output
+# from PIL import Image
+# import cv2
+
 import random
 from pyautogui import *
 import json
@@ -8,6 +13,18 @@ from random import choice
 from collections import Counter
 import win32api
 import win32con
+
+# try:
+#     with open('pyt.txt', 'r') as file:
+#         pyt_folder = file.read()
+#         if pyt_folder.split('\\')[-1] == 'tesseract.exe':
+#             pyt.pytesseract.tesseract_cmd = pyt_folder
+#         else:
+#             print("The path must be to the tesseract.exe file")
+# except FileNotFoundError:
+#     with open('pyt.txt', 'w') as file:
+#         file.write('Put your tesseract.exe path here')
+
 
 visions = ["pyro", "hydro", "cryo", "anemo", "geo", "electro", "dendro"]
 regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"]
@@ -150,6 +167,14 @@ def screenshot():
 #                                     region=location, confidence=0.95) is not None
 
 
+def stop(q):
+    if keyboard.is_pressed('ctrl'):
+        if not q:
+            print("You quit")
+        return True
+    return False
+
+
 def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, character):
     t = screenshot()
 
@@ -199,6 +224,20 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     if (pyautogui.locateOnScreen(f"{arrow}.png", region=(472, 468, 976, 170), confidence=0.95) is not None):
                         img = pyautogui.screenshot(region=(472, 468, 976, 170))
                         img.save(r'.\last arrow seen.png')
+                        # try:
+                        #     image = cv2.imread('last arrow seen.png')
+                        #     text = pyt.image_to_string(image)
+                        #     print(f"text: {text} text end here")
+                        # except FileNotFoundError:
+                        #     print('Go to line 220 in the code')
+                        #     '''
+                        #         Tesseract not installed.
+                        #         Follow the tutorial at https://youtu.be/HHHkh9IOqhI or do the following:
+                        #         Go to https://github.com/UB-Mannheim/tesseract/wiki and download the installer.
+                        #         Save the destination folder you choose while using the installer!!!
+                        #     '''
+                        # except:
+                        #     print("Verify that pyt.txt leads to your tesseract.exe location")
                         arrow_list = arrow.split()[:-1]
                         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
                         if arrow_list[0] == '1':
@@ -248,10 +287,17 @@ if not master_test:
     keyboard.press_and_release('f11')
 lost = False
 quit = False
-while not keyboard.is_pressed('ctrl') and not lost and not quit:
+while not lost and not quit:
     know_vision, know_region, know_weapon, know_version = False, False, False, False
     flag = False
     for i in range(5):
+        # quit = stop(quit)
+        # if quit:
+        #     break
+        # time.sleep(3)
+        quit = stop(quit)
+        if quit:
+            break
         if not flag:
             flag = True
             pool = characters.copy()
@@ -259,15 +305,6 @@ while not keyboard.is_pressed('ctrl') and not lost and not quit:
             eligible_visions = visions.copy()
             eligible_weapons = weapons.copy()
             eligible_versions = versions.copy()
-        if keyboard.is_pressed('ctrl'):
-            quit = True
-            print("You quit")
-            break
-        # time.sleep(3)
-        if keyboard.is_pressed('ctrl'):
-            quit = True
-            print("You quit")
-            break
         click(1000, 334)
         click(1000, 334)
         time.sleep(0.1)
@@ -325,7 +362,13 @@ while not keyboard.is_pressed('ctrl') and not lost and not quit:
             break
         else:
             print(f"Guessing {writing}... ({most_common_count})")
+        quit = stop(quit)
+        if quit:
+            break
         time.sleep(0.7)
+        quit = stop(quit)
+        if quit:
+            break
         eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version = \
             find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version, char)
         time.sleep(0.2)
@@ -337,9 +380,16 @@ while not keyboard.is_pressed('ctrl') and not lost and not quit:
                  (character.version in eligible_versions) and
                  (character.name is not writing))]
         print(f"{len(pool)} left in the pool\n")
-        if keyboard.is_pressed('ctrl'):
+        quit = stop(quit)
+        if quit:
             break
     else:
         print(f"We do not win. Pool: {[character.name for character in pool]}")
         break
+    quit = stop(quit)
+    if quit:
+        break
     sleep(1)
+    quit = stop(quit)
+    if quit:
+        break
