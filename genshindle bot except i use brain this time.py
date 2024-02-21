@@ -40,14 +40,18 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
 arrows = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
+
+from pathlib import Path
+Path(".\logs").mkdir(parents=True, exist_ok=True)
+
 try:
-    with open('log.txt', 'r') as file:
+    with open('.\logs\log.txt', 'r') as file:
         pass
 except FileNotFoundError:
-    with open('log.txt', 'w') as file:
+    with open('.\logs\log.txt', 'w') as file:
         file.write('{}')
 
-with open('log.txt') as file:
+with open('.\logs\log.txt') as file:
     data = file.read()
 log = json.loads(data)
 
@@ -231,13 +235,13 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             print(f"The character did not release in {character.version}!")
             el_ver = [ver for ver in el_ver if ver != character.version]
             img = pyautogui.screenshot(region=location)
-            img.save(r'.\last incorrect version seen.png')
+            img.save(r'.\logs\last incorrect version seen.png')
             for arrow in arrows:
                 try:
                     sleep(0.2)
                     if (pyautogui.locateOnScreen(f".\Arrows\{arrow}.png", region=(472, 468, 976, 170), confidence=0.95) is not None):
                         img = pyautogui.screenshot(region=(472, 468, 976, 170))
-                        img.save(r'.\last arrow seen.png')
+                        img.save(r'.\logs\last arrow seen.png')
                         # try:
                         #     image = cv2.imread('last arrow seen.png')
                         #     text = pyt.image_to_string(image)
@@ -392,7 +396,7 @@ while not lost and not quit and not daily:
                     else:
                         progress = ' You found every character!'
                     print(f"You discovered {writing}!{progress}")
-                with open('log.txt', 'w') as file:
+                with open('.\logs\log.txt', 'w') as file:
                     file.write(json.dumps(log))
                 print("\n--------------------------\n")
             break
