@@ -212,7 +212,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                             el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
                         break
                 except ImageNotFoundException:
-                    print(f"I can't see {arrow}")
+                    print(f"Couldn't locate {arrow}...")
             else:
                 print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
                 try:
