@@ -189,12 +189,15 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             el_ver = [character.version]
             know_version = True
         else:
-            try:
-                print(f"The character did not release in {character.version}!")
-                img = pyautogui.screenshot(region=location)
-                img.save(r'.\last arrow seen.png')
-                for arrow in arrows:
+            print(f"The character did not release in {character.version}!")
+            el_ver = [ver for ver in el_ver if ver != character.version]
+            img = pyautogui.screenshot(region=location)
+            img.save(r'.\last incorrect version seen.png')
+            for arrow in arrows:
+                try:
                     if pyautogui.locateOnScreen(f'{arrow}.png', region=location, confidence=0.95) is not None:
+                        img = pyautogui.screenshot(region=location)
+                        img.save(r'.\last arrow seen.png')
                         arrow_list = arrow.split()[:-1]
                         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
                         if arrow_list[0] == '1':
@@ -207,9 +210,11 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                         else:
                             el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
                         break
-            except ImageNotFoundException:  # this should NOT occur and if it does, the program will not work optimally.
-                print("I can't see the arrows :(")
-                el_ver = [ver for ver in el_ver if ver != character.version]
+                except ImageNotFoundException:
+                    print(f"I can't see arrow #{arrow.split()[0]}")
+            else:
+                print("This is not good.")
+                # this should NOT occur and if it does, the program will not work optimally.
                 # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
                 # (take them at 100% window size, in fullscreen and 100% system scale)
                 # if that doesn't help it recognize the arrows i haven't found a better fix yet unfortunately
