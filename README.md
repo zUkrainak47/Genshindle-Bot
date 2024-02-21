@@ -1,5 +1,5 @@
 # Genshindle Bot
-## About
+### About
 This program automates the genshindle endless mode found at https://genshindle.com/endless/ \
 If you want to use this in normal (daily) mode, refer to line 18 in the code
 
