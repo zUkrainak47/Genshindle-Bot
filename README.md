@@ -1,5 +1,6 @@
 # Genshindle Bot
-This program automates the genshindle endless mode found at https://genshindle.com/endless/
+This program automates the genshindle endless mode found at https://genshindle.com/endless/\
+If you want to use this in normal (daily) mode, refer to line 18 in the code
 
 Download as zip and run `genshindle bot except i use brain this time.py` to start automating\
 Make sure that the input bar on the wesbite is visible at the time of starting the script 

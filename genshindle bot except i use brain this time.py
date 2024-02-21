@@ -14,6 +14,10 @@ from collections import Counter
 import win32api
 import win32con
 
+
+daily_mode = False  # set this to True to use in Normal (daily) mode and False to use in Endless mode!
+
+
 # try:
 #     with open('pyt.txt', 'r') as file:
 #         pyt_folder = file.read()
@@ -174,6 +178,16 @@ def stop(q):
         return True
     return False
 
+def waiting():
+    print(3)
+    sleep(1)
+    print(2)
+    sleep(1)
+    print(1)
+    sleep(1)
+    print("Ok, looking now")
+    return
+
 
 def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, character):
     t = screenshot()
@@ -287,7 +301,12 @@ if not master_test:
     keyboard.press_and_release('f11')
 lost = False
 quit = False
-while not lost and not quit:
+daily = False
+while not lost and not quit and not daily:
+
+    if daily_mode:
+        daily = True
+
     know_vision, know_region, know_weapon, know_version = False, False, False, False
     flag = False
     for i in range(5):
@@ -333,30 +352,35 @@ while not lost and not quit:
         keyboard.write(writing)
         keyboard.press_and_release('enter')
         time.sleep(0.3)
-        pic = pyautogui.screenshot(region=(500, 300, 2, 2))
+        if daily:
+            quit = stop(quit)
+            if quit:
+                break
+        pic = pyautogui.screenshot(region=(550, 350, 2, 2))
         r, g, b = pic.getpixel((1, 1))
-        if g > 100:
+        if (g > 80) and (r < 40):
             print(f"We win - {writing.upper()}")
             # time.sleep(1)
-            if writing in log:
-                log[writing] += 1
-                if len(log) != len(characters):
-                    progress = f" ({len(log)}/{len(characters)} characters found)"
+            if not daily:
+                if writing in log:
+                    log[writing] += 1
+                    if len(log) != len(characters):
+                        progress = f" ({len(log)}/{len(characters)} characters found)"
+                    else:
+                        progress = ' You found every character!'
+                    print(f"You found {writing} {log[writing]} times!{progress}")
                 else:
-                    progress = ' You found every character!'
-                print(f"You found {writing} {log[writing]} times!{progress}")
-            else:
-                log[writing] = 1
-                if len(log) != len(characters):
-                    progress = f" ({len(log)}/{len(characters)} characters found)"
-                else:
-                    progress = ' You found every character!'
-                print(f"You discovered {writing}!{progress}")
-            with open('log.txt', 'w') as file:
-                file.write(json.dumps(log))
-            print("\n--------------------------\n")
+                    log[writing] = 1
+                    if len(log) != len(characters):
+                        progress = f" ({len(log)}/{len(characters)} characters found)"
+                    else:
+                        progress = ' You found every character!'
+                    print(f"You discovered {writing}!{progress}")
+                with open('log.txt', 'w') as file:
+                    file.write(json.dumps(log))
+                print("\n--------------------------\n")
             break
-        elif r > 80:
+        elif r >= 50:
             print(f"We lose. Pool: {[character.name for character in pool]}")
             lost = True
             break
@@ -366,9 +390,14 @@ while not lost and not quit:
         if quit:
             break
         time.sleep(0.7)
+
         quit = stop(quit)
         if quit:
             break
+
+        if daily:
+            waiting()
+
         eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version = \
             find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version, char)
         time.sleep(0.2)
