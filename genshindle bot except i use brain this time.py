@@ -1,8 +1,10 @@
+import random
 from pyautogui import *
 import json
 import pyautogui
 import time
 import keyboard
+from random import choice
 from collections import Counter
 import win32api
 import win32con
@@ -193,8 +195,9 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             img.save(r'.\last incorrect version seen.png')
             for arrow in arrows:
                 try:
-                    if pyautogui.locateOnScreen(f'{arrow}.png', region=(1329, 464, 119, 120), confidence=0.95) is not None:
-                        img = pyautogui.screenshot(region=(1329, 464, 119, 120))
+                    sleep(0.2)
+                    if (pyautogui.locateOnScreen(f"{arrow}.png", region=(472, 468, 976, 116), confidence=0.95) is not None):
+                        img = pyautogui.screenshot(region=(472, 468, 976, 116))
                         img.save(r'.\last arrow seen.png')
                         arrow_list = arrow.split()[:-1]
                         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
@@ -209,9 +212,9 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                             el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
                         break
                 except ImageNotFoundException:
-                    print(f"I can't see arrow #{int(arrow.split()[0]) + 2 * (arrow.split()[1] == 'down')}")
+                    print(f"I can't see {arrow}")
             else:
-                print("This is not good.")
+                print("This is not good. Couldn't find any arrows")
                 # this should NOT occur and if it does, the program will not work optimally.
                 # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
                 # (take them at 100% window size, in fullscreen and 100% system scale)
