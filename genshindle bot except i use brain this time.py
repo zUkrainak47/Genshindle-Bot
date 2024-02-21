@@ -286,7 +286,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
 
 
 keyboard.press_and_release('alt+tab')
-click(1000, 334)
+sleep(0.2)
 keyboard.press_and_release('ctrl+0')
 
 sleep(0.05)
