@@ -1,10 +1,8 @@
-import random
 from pyautogui import *
 import json
 import pyautogui
 import time
 import keyboard
-from random import choice
 from collections import Counter
 import win32api
 import win32con
@@ -195,8 +193,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             img.save(r'.\last incorrect version seen.png')
             for arrow in arrows:
                 try:
-                    if pyautogui.locateOnScreen(f'{arrow}.png', region=location, confidence=0.95) is not None:
-                        img = pyautogui.screenshot(region=location)
+                    if pyautogui.locateOnScreen(f'{arrow}.png', region=(1329, 464, 119, 120), confidence=0.95) is not None:
+                        img = pyautogui.screenshot(region=(1329, 464, 119, 120))
                         img.save(r'.\last arrow seen.png')
                         arrow_list = arrow.split()[:-1]
                         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
