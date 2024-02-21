@@ -16,7 +16,7 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4]
-arrows = ["1 up arrow", "2 up arrow", "1 down arrow", "2 down arrow"]
+arrows = ["2 down arrowforwriothesley", "1 up arrow", "2 up arrow", "1 down arrow", "1 down arrowagain", "2 down arrow"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
 try:
@@ -196,8 +196,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             for arrow in arrows:
                 try:
                     sleep(0.2)
-                    if (pyautogui.locateOnScreen(f"{arrow}.png", region=(472, 468, 976, 116), confidence=0.95) is not None):
-                        img = pyautogui.screenshot(region=(472, 468, 976, 116))
+                    if (pyautogui.locateOnScreen(f"{arrow}.png", region=(472, 468, 976, 170), confidence=0.95) is not None):
+                        img = pyautogui.screenshot(region=(472, 468, 976, 170))
                         img.save(r'.\last arrow seen.png')
                         arrow_list = arrow.split()[:-1]
                         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
@@ -214,7 +214,14 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 except ImageNotFoundException:
                     print(f"I can't see {arrow}")
             else:
-                print("This is not good. Couldn't find any arrows")
+                print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
+                try:
+                    with open('arrow.txt', 'a') as file:
+                        file.write(f'\n{character.name}')
+                except FileNotFoundError:
+                    with open('arrow.txt', 'w') as file:
+                        file.write('{}')
+
                 # this should NOT occur and if it does, the program will not work optimally.
                 # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
                 # (take them at 100% window size, in fullscreen and 100% system scale)
@@ -240,7 +247,8 @@ master_test = test1 and test2 and test3
 if not master_test:
     keyboard.press_and_release('f11')
 lost = False
-while not keyboard.is_pressed('ctrl') and not lost:
+quit = False
+while not keyboard.is_pressed('ctrl') and not lost and not quit:
     know_vision, know_region, know_weapon, know_version = False, False, False, False
     flag = False
     for i in range(5):
@@ -251,7 +259,15 @@ while not keyboard.is_pressed('ctrl') and not lost:
             eligible_visions = visions.copy()
             eligible_weapons = weapons.copy()
             eligible_versions = versions.copy()
-
+        if keyboard.is_pressed('ctrl'):
+            quit = True
+            print("You quit")
+            break
+        # time.sleep(3)
+        if keyboard.is_pressed('ctrl'):
+            quit = True
+            print("You quit")
+            break
         click(1000, 334)
         click(1000, 334)
         time.sleep(0.1)
