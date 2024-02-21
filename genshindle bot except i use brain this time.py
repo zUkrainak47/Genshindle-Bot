@@ -278,13 +278,14 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 # this should NOT occur and if it does, the program will not work optimally.
                 # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
                 # (take them at 100% window size, in fullscreen and 100% system scale)
-                # if that doesn't help it recognize the arrows i haven't found a better fix yet unfortunately
+                # if that doesn't help recognize the arrows, i haven't found a fix yet unfortunately
 
     # print(el_reg, el_vis, el_weap, el_ver)
     print("Possible versions:", el_ver)
     return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version
 
 
+keyboard.press_and_release('alt+tab')
 click(1000, 334)
 keyboard.press_and_release('ctrl+0')
 
