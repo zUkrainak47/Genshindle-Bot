@@ -38,7 +38,8 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4]
 arrow_folder = 'arrows 100% scale'
-arrows = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+arrows = ["2 up arrow", "2 down arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
 arrow_location = (472, 468, 976, 170)
@@ -239,7 +240,11 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             el_ver = [ver for ver in el_ver if ver != character.version]
             img = pyautogui.screenshot(region=location)
             img.save(r'.\logs\last incorrect version seen.png')
-            for arrow in arrows:
+            if character.name == "Wriothesley":
+                arrows_to_go_through = arrows_wrio
+            else:
+                arrows_to_go_through = arrows
+            for arrow in arrows_to_go_through:
                 try:
                     sleep(0.2)
                     if (pyautogui.locateOnScreen(f".\Arrows\{arrow_folder}\{arrow}.png", region=arrow_location, confidence=0.95) is not None):
@@ -325,7 +330,7 @@ r, g, b = pic.getpixel((1, 1))
 if(r, g, b) == black:
     scale125 = True
     location = (472, 570, 976, 119)
-    arrows = ["2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+    arrows_wrio = ["2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
     arrow_folder = 'arrows 125% scale'
     arrow_location = (472, 505, 976, 190)
     click_y = 355
