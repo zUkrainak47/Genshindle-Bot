@@ -1,11 +1,11 @@
 # Genshindle Bot
 ### About
 This program automates the genshindle endless mode found at https://genshindle.com/endless/ \
-If you want to use this script in normal (daily) mode, refer to line 14 in the code. \
-If you want to make this script faster, refer to line 18.
 
 ### Setup
-Download ZIP and extract 👍
+Download ZIP and extract 👍 \
+You can toggle between Endless Mode and Normal (Daily) Mode in `settings.txt`. \
+You can also toggle extra fast speed there.
 
 ### Usage
 Run `genshindle bot.py` to start automating. \

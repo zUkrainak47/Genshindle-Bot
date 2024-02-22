@@ -1,0 +1,7 @@
+daily_mode = 0
+set to 1 to use in Normal (daily) Mode.
+set to 0 to use in Endless Mode.
+
+even_faster = 0
+set to 1 to make the script run as fast as it can. this also affects console output and win screen time.
+set to 0 to be able to see which character was the solution and see console logs.

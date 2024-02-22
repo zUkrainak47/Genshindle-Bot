@@ -10,14 +10,41 @@ import win32api
 import win32con
 from pathlib import Path
 
+daily_mode = 0
+even_faster = 0
 
-daily_mode = 0  # toggle for daily mode
-# set to 1 to use in Normal (daily) mode
-# set to 0 to use in Endless mode
+# ChatGPT code:
+try:
+    with open(r'.\settings.txt', 'r') as file:
+        lines = file.readlines()
+        # Parse each line of the file
+        for line in lines:
+            # Split each line into key and value pairs
+            try:
+                key, value = line.strip().split('=')
+                key = key.strip()
+                value = value.strip()
 
-even_faster = 0  # toggle to make script go really fast
-# set to 1 to make the script run as fast as it can. this also affects console output and win screen time
-# set to 0 to be able to see which character was the solution and see console logs
+                # Convert value to integer if applicable
+                if value.isdigit():
+                    value = int(value)
+
+                # Assign value to corresponding variable
+                if key == 'daily_mode':
+                    daily_mode = value
+                elif key == 'even_faster':
+                    even_faster = value
+            except ValueError:
+                pass
+
+except FileNotFoundError:
+    with open(r'.\settings.txt', 'w') as file:
+        file.write('daily_mode = 0\nset to 1 to use in Normal (daily) Mode\nset to 0 to use in Endless '
+                   'Mode\n\neven_faster = 0\nset to 1 to make the script run as fast as it can. this also affects '
+                   'console output and win screen time\nset to 0 to be able to see which character was the solution '
+                   'and see console logs')
+
+print(daily_mode, even_faster)
 
 visions = ["pyro", "hydro", "cryo", "anemo", "geo", "electro", "dendro"]
 regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"]
@@ -313,6 +340,7 @@ test3 = (r3, g3, b3) in colors
 master_test = test1 and test2 and test3
 if not master_test:
     keyboard.press_and_release('f11')
+
 
 pic = pyautogui.screenshot(region=(1100, 1, 2, 2))
 r, g, b = pic.getpixel((1, 1))
