@@ -242,7 +242,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             for arrow in arrows:
                 try:
                     sleep(0.2)
-                    if (pyautogui.locateOnScreen(f".\{arrow_folder}\{arrow}.png", region=arrow_location, confidence=0.95) is not None):
+                    if (pyautogui.locateOnScreen(f".\Arrows\{arrow_folder}\{arrow}.png", region=arrow_location, confidence=0.95) is not None):
                         img = pyautogui.screenshot(region=arrow_location)
                         img.save(r'.\logs\last arrow seen.png')
                         # try:
