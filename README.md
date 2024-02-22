@@ -1,7 +1,7 @@
 # Genshindle Bot
 ### About
 This program automates the genshindle endless mode found at https://genshindle.com/endless/ \
-If you want to use this in normal (daily) mode, refer to line 18 in the code
+If you want to use this in normal (daily) mode, refer to line 18 in the code \
 You can use this program with display scale set to 100% or 125%
 
 ### Setup
