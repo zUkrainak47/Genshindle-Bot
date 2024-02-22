@@ -38,7 +38,7 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4]
 arrow_folder = 'arrows 100% scale'
-arrows = ["2 up arrow", "2 down arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again"]
 arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
@@ -246,7 +246,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 arrows_to_go_through = arrows
             for arrow in arrows_to_go_through:
                 try:
-                    sleep(0.2)
+                    # sleep(0.2)
                     if (pyautogui.locateOnScreen(f".\Arrows\{arrow_folder}\{arrow}.png", region=arrow_location, confidence=0.95) is not None):
                         img = pyautogui.screenshot(region=arrow_location)
                         img.save(r'.\logs\last arrow seen.png')
@@ -429,15 +429,19 @@ while not lost and not quit and not daily:
         quit = stop(quit)
         if quit:
             break
-        time.sleep(0.7)
+        time.sleep(0.3)
 
         quit = stop(quit)
         if quit:
             break
 
         if daily:
+            print("Waiting for the cards to flip...")
+            time.sleep(0.4)
             waiting()
 
+        # print('Now!')
+        
         eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version = \
             find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version, char)
         time.sleep(0.2)
