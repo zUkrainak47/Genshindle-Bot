@@ -17,5 +17,5 @@ Display scales 100% and 125% are supported \
 If the game versions aren't recognized correctly, refer to line 285 in the code
 
 ## Special thanks to
-alterpadoru and clevernt on discord
+alterpadoru and clevernt on discord \
 Thanks for your help <333
