@@ -1,8 +1,3 @@
-# import pytesseract as pyt
-# from pytesseract import Output
-# from PIL import Image
-# import cv2
-
 import random
 from pyautogui import *
 import json
@@ -13,22 +8,16 @@ from random import choice
 from collections import Counter
 import win32api
 import win32con
+from pathlib import Path
 
 
-daily_mode = 0  # set this to 1 to use in Normal (daily) mode and 0 to use in Endless mode!
+daily_mode = 0  # toggle for daily mode
+# set to 1 to use in Normal (daily) mode
+# set to 0 to use in Endless mode
 
-
-# try:
-#     with open('pyt.txt', 'r') as file:
-#         pyt_folder = file.read()
-#         if pyt_folder.split('\\')[-1] == 'tesseract.exe':
-#             pyt.pytesseract.tesseract_cmd = pyt_folder
-#         else:
-#             print("The path must be to the tesseract.exe file")
-# except FileNotFoundError:
-#     with open('pyt.txt', 'w') as file:
-#         file.write('Put your tesseract.exe path here')
-
+even_faster = 0  # makes script go fast (skips the showcase of the correctly guessed character)
+# set to 1 to make the script run as fast as it can
+# set to 0 to be able to see which character was the solution
 
 visions = ["pyro", "hydro", "cryo", "anemo", "geo", "electro", "dendro"]
 regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"]
@@ -45,7 +34,6 @@ location = (472, 516, 976, 116)
 arrow_location = (472, 468, 976, 170)
 click_y = 334
 
-from pathlib import Path
 Path(".\logs").mkdir(parents=True, exist_ok=True)
 
 try:
@@ -186,6 +174,7 @@ def stop(q):
         return True
     return False
 
+
 def waiting():
     print(3)
     sleep(1)
@@ -247,34 +236,25 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             for arrow in arrows_to_go_through:
                 try:
                     # sleep(0.2)
-                    if (pyautogui.locateOnScreen(f".\Arrows\{arrow_folder}\{arrow}.png", region=arrow_location, confidence=0.95) is not None):
+                    if (pyautogui.locateOnScreen(f".\Arrows\{arrow_folder}\{arrow}.png", region=arrow_location,
+                                                 confidence=0.95) is not None):
                         img = pyautogui.screenshot(region=arrow_location)
                         img.save(r'.\logs\last arrow seen.png')
-                        # try:
-                        #     image = cv2.imread('last arrow seen.png')
-                        #     text = pyt.image_to_string(image)
-                        #     print(f"text: {text} text end here")
-                        # except FileNotFoundError:
-                        #     print('Go to line 220 in the code')
-                        #     '''
-                        #         Tesseract not installed.
-                        #         Follow the tutorial at https://youtu.be/HHHkh9IOqhI or do the following:
-                        #         Go to https://github.com/UB-Mannheim/tesseract/wiki and download the installer.
-                        #         Save the destination folder you choose while using the installer!!!
-                        #     '''
-                        # except:
-                        #     print("Verify that pyt.txt leads to your tesseract.exe location")
                         arrow_list = arrow.split()[:-1]
                         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
                         if arrow_list[0] == '1':
                             if arrow_list[1] == 'up':
-                                el_ver = [ver for ver in el_ver if ((ver > character.version) and (ver - character.version <= 1))]
+                                el_ver = [ver for ver in el_ver if
+                                          ((ver > character.version) and (ver - character.version <= 1))]
                             else:
-                                el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver <= 1))]
+                                el_ver = [ver for ver in el_ver if
+                                          ((ver < character.version) and (character.version - ver <= 1))]
                         elif arrow_list[1] == 'up':
-                            el_ver = [ver for ver in el_ver if ((ver > character.version) and (ver - character.version > 1))]
+                            el_ver = [ver for ver in el_ver if
+                                      ((ver > character.version) and (ver - character.version > 1))]
                         else:
-                            el_ver = [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
+                            el_ver = [ver for ver in el_ver if
+                                      ((ver < character.version) and (character.version - ver > 1))]
                         break
                 except ImageNotFoundException:
                     print(f"Couldn't locate {arrow}...")
@@ -308,7 +288,6 @@ black = (13, 15, 15)
 gray = (26, 26, 26)
 colors = (grey, black, gray)
 
-
 temp1 = pyautogui.screenshot(region=(1, 1, 2, 2))
 r1, g1, b1 = temp1.getpixel((1, 1))
 test1 = (r1, g1, b1) in colors
@@ -327,7 +306,7 @@ if not master_test:
 
 pic = pyautogui.screenshot(region=(1100, 1, 2, 2))
 r, g, b = pic.getpixel((1, 1))
-if(r, g, b) == black:
+if (r, g, b) == black:
     scale125 = True
     location = (472, 570, 976, 119)
     arrows_wrio = ["2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
@@ -367,6 +346,7 @@ while not lost and not quit and not daily:
         click(1000, click_y)
         time.sleep(0.1)
 
+        # ChatGPT code:
         # Count the occurrences of each property
         region_counts = Counter(character.region for character in pool)
         vision_counts = Counter(character.vision for character in pool)
@@ -387,10 +367,11 @@ while not lost and not quit and not daily:
             weapon_counts[char.weapon],
             version_counts[char.version]
         )
+        # Thanks ChatGPT
 
         keyboard.write(writing)
         keyboard.press_and_release('enter')
-        time.sleep(0.3)
+        time.sleep(0.2)
         if daily:
             quit = stop(quit)
             if quit:
@@ -441,9 +422,10 @@ while not lost and not quit and not daily:
             waiting()
 
         # print('Now!')
-        
+
         eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version = \
-            find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version, char)
+            find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision,
+                           know_region, know_weapon, know_version, char)
         time.sleep(0.2)
         # print(eligible_visions)
         pool = [character for character in pool if
@@ -462,7 +444,8 @@ while not lost and not quit and not daily:
     quit = stop(quit)
     if quit:
         break
-    sleep(1)
+    if not even_faster:
+        sleep(1)
     quit = stop(quit)
     if quit:
         break
