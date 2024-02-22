@@ -15,9 +15,9 @@ daily_mode = 0  # toggle for daily mode
 # set to 1 to use in Normal (daily) mode
 # set to 0 to use in Endless mode
 
-even_faster = 0  # makes script go fast (skips the showcase of the correctly guessed character)
-# set to 1 to make the script run as fast as it can
-# set to 0 to be able to see which character was the solution
+even_faster = 0  # makes script go really fast
+# set to 1 to make the script run as fast as it can. this also affects console output and win screen time
+# set to 0 to be able to see which character was the solution and see console logs
 
 visions = ["pyro", "hydro", "cryo", "anemo", "geo", "electro", "dendro"]
 regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"]
@@ -193,42 +193,50 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
         r, g, b = t.getpixel((555, 20))
         if (g, b) == (25, 25):
             el_reg = [r for r in el_reg if r != character.region.lower()]
-            print(f"The character is not from {character.region}!")
+            if not even_faster:
+                print(f"The character is not from {character.region}!")
         else:
             el_reg = [character.region.lower()]
-            print(f"The character is from {character.region}!")
+            if not even_faster:
+                print(f"The character is from {character.region}!")
             know_region = True
 
     if not know_vision:
         r, g, b = t.getpixel((667, 20))
         if (g, b) == (25, 25):
             el_vis = [vis for vis in el_vis if vis != character.vision.lower()]
-            print(f"The character is not {character.vision}!")
+            if not even_faster:
+                print(f"The character is not {character.vision}!")
         else:
             el_vis = [character.vision.lower()]
-            print(f"The character is {character.vision}!")
+            if not even_faster:
+                print(f"The character is {character.vision}!")
             know_vision = True
 
     if not know_weapon:
         r, g, b = t.getpixel((777, 20))
         if (g, b) == (25, 25):
             el_weap = [w for w in el_weap if w != character.weapon.lower()]
-            print(f"The character does not use a {character.weapon}!")
+            if not even_faster:
+                print(f"The character does not use a {character.weapon}!")
         else:
             el_weap = [character.weapon.lower()]
-            print(f"The character uses a {character.weapon}!")
+            if not even_faster:
+                print(f"The character uses a {character.weapon}!")
             know_weapon = True
 
     if not know_version:
+        time.sleep(0.05)
         r, g, b = t.getpixel((888, 20))  # correct version
         if (g, b) != (25, 25):
             el_ver = [character.version]
             know_version = True
         else:
-            print(f"The character did not release in {character.version}!")
+            if not even_faster:
+                print(f"The character did not release in {character.version}!")
+                img = pyautogui.screenshot(region=location)
+                img.save(r'.\logs\last incorrect version seen.png')
             el_ver = [ver for ver in el_ver if ver != character.version]
-            img = pyautogui.screenshot(region=location)
-            img.save(r'.\logs\last incorrect version seen.png')
             if character.name == "Wriothesley":
                 arrows_to_go_through = arrows_wrio
             else:
@@ -238,10 +246,11 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     # sleep(0.2)
                     if (pyautogui.locateOnScreen(f".\Arrows\{arrow_folder}\{arrow}.png", region=arrow_location,
                                                  confidence=0.95) is not None):
-                        img = pyautogui.screenshot(region=arrow_location)
-                        img.save(r'.\logs\last arrow seen.png')
                         arrow_list = arrow.split()[:-1]
-                        print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
+                        if not even_faster:
+                            img = pyautogui.screenshot(region=arrow_location)
+                            img.save(r'.\logs\last arrow seen.png')
+                            print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
                         if arrow_list[0] == '1':
                             if arrow_list[1] == 'up':
                                 el_ver = [ver for ver in el_ver if
@@ -273,7 +282,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 # if that doesn't help recognize the arrows, i haven't found a fix yet unfortunately
 
     # print(el_reg, el_vis, el_weap, el_ver)
-    print("Possible versions:", el_ver)
+    if not even_faster:
+        print("Possible versions:", el_ver)
     return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version
 
 
@@ -389,14 +399,16 @@ while not lost and not quit and not daily:
                         progress = f" ({len(log)}/{len(characters)} characters found)"
                     else:
                         progress = ' You found every character!'
-                    print(f"You found {writing} {log[writing]} times!{progress}")
+                    if not even_faster:
+                        print(f"You found {writing} {log[writing]} times!{progress}")
                 else:
                     log[writing] = 1
                     if len(log) != len(characters):
                         progress = f" ({len(log)}/{len(characters)} characters found)"
                     else:
                         progress = ' You found every character!'
-                    print(f"You discovered {writing}!{progress}")
+                    if not even_faster:
+                        print(f"You discovered {writing}!{progress}")
                 with open('.\logs\log.txt', 'w') as file:
                     file.write(json.dumps(log))
                 print("\n--------------------------\n")
@@ -406,7 +418,11 @@ while not lost and not quit and not daily:
             lost = True
             break
         else:
-            print(f"Guessing {writing}... ({most_common_count})")
+            print(f"Guessing {writing}...", end='')
+            if even_faster:
+                print()
+            else:
+                print(f" ({most_common_count})")
         quit = stop(quit)
         if quit:
             break
@@ -434,7 +450,8 @@ while not lost and not quit and not daily:
                  (character.weapon.lower() in eligible_weapons) and
                  (character.version in eligible_versions) and
                  (character.name is not writing))]
-        print(f"{len(pool)} left in the pool\n")
+        if not even_faster:
+            print(f"{len(pool)} left in the pool\n")
         quit = stop(quit)
         if quit:
             break
