@@ -15,7 +15,7 @@ import win32api
 import win32con
 
 
-daily_mode = False  # set this to True to use in Normal (daily) mode and False to use in Endless mode!
+daily_mode = 0  # set this to 1 to use in Normal (daily) mode and 0 to use in Endless mode!
 
 
 # try:
@@ -37,9 +37,12 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4]
-arrows = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+arrow_folder = 'arrows 100% scale'
+arrows = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
+arrow_location = (472, 468, 976, 170)
+click_y = 334
 
 from pathlib import Path
 Path(".\logs").mkdir(parents=True, exist_ok=True)
@@ -85,24 +88,29 @@ characters = [Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Sucrose", "mondstadt", "Anemo", "Catalyst", 1.0),
               Character("Venti", "mondstadt", "Anemo", "Bow", 1.0),
               Character("Xiangling", "liyue", "Pyro", "Polearm", 1.0),
-              Character("Xingqiu", "liyue", "Hydro", "Sword", 1.0), Character("Diona", "mondstadt", "Cryo", "Bow", 1.1),
+              Character("Xingqiu", "liyue", "Hydro", "Sword", 1.0),
+              Character("Diona", "mondstadt", "Cryo", "Bow", 1.1),
               Character("Tartaglia", "snezhnaya", "Hydro", "Bow", 1.1),
               Character("Xinyan", "liyue", "Pyro", "Claymore", 1.1),
               Character("Zhongli", "liyue", "Geo", "Polearm", 1.1),
-              Character("Albedo", "mondstadt", "Geo", "Sword", 1.2), Character("Ganyu", "liyue", "Cryo", "Bow", 1.2),
-              Character("Hu Tao", "liyue", "Pyro", "Polearm", 1.3), Character("Xiao", "liyue", "Anemo", "Polearm", 1.3),
+              Character("Albedo", "mondstadt", "Geo", "Sword", 1.2),
+              Character("Ganyu", "liyue", "Cryo", "Bow", 1.2),
+              Character("Hu Tao", "liyue", "Pyro", "Polearm", 1.3),
+              Character("Xiao", "liyue", "Anemo", "Polearm", 1.3),
               Character("Rosaria", "mondstadt", "Cryo", "Polearm", 1.4),
               Character("Eula", "mondstadt", "Cryo", "Claymore", 1.5),
               Character("Yanfei", "liyue", "Pyro", "Catalyst", 1.5),
               Character("Kazuha", "inazuma", "Anemo", "Sword", 1.6),
               Character("Ayaka", "inazuma", "Cryo", "Sword", 2.0),
               Character("Sayu", "inazuma", "Anemo", "Claymore", 2.0),
-              Character("Yoimiya", "inazuma", "Pyro", "Bow", 2.0), Character("Aloy", "none", "Cryo", "Bow", 2.1),
+              Character("Yoimiya", "inazuma", "Pyro", "Bow", 2.0),
+              Character("Aloy", "none", "Cryo", "Bow", 2.1),
               Character("Kujou Sara", "inazuma", "Electro", "Bow", 2.1),
               Character("Raiden Shogun", "inazuma", "Electro", "Polearm", 2.1),
               Character("Kokomi", "inazuma", "Hydro", "Catalyst", 2.1),
               Character("Thoma", "inazuma", "Pyro", "Polearm", 2.2),
-              Character("Itto", "inazuma", "Geo", "Claymore", 2.3), Character("Gorou", "inazuma", "Geo", "Bow", 2.3),
+              Character("Itto", "inazuma", "Geo", "Claymore", 2.3),
+              Character("Gorou", "inazuma", "Geo", "Bow", 2.3),
               Character("Shenhe", "liyue", "Cryo", "Polearm", 2.4),
               Character("Yun Jin", "liyue", "Geo", "Polearm", 2.4),
               Character("Yae Miko", "inazuma", "Electro", "Catalyst", 2.5),
@@ -115,7 +123,8 @@ characters = [Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Tighnari", "sumeru", "Dendro", "Bow", 3.0),
               Character("Candace", "sumeru", "Hydro", "Polearm", 3.1),
               Character("Cyno", "sumeru", "Electro", "Polearm", 3.1),
-              Character("Nilou", "sumeru", "Hydro", "Sword", 3.1), Character("Layla", "sumeru", "Cryo", "Sword", 3.2),
+              Character("Nilou", "sumeru", "Hydro", "Sword", 3.1),
+              Character("Layla", "sumeru", "Cryo", "Sword", 3.2),
               Character("Nahida", "sumeru", "Dendro", "Catalyst", 3.2),
               Character("Faruzan", "sumeru", "Anemo", "Bow", 3.3),
               Character("Wanderer", "sumeru", "Anemo", "Catalyst", 3.3),
@@ -158,8 +167,8 @@ def click(x, y):
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
 
 
-def screenshot():
-    img = pyautogui.screenshot(region=location)
+def screenshot(loc):
+    img = pyautogui.screenshot(region=loc)
     return img
 
 
@@ -188,10 +197,10 @@ def waiting():
 
 
 def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, character):
-    t = screenshot()
+    t = screenshot(location)
 
     if not know_region:
-        r, g, b = t.getpixel((555, 25))
+        r, g, b = t.getpixel((555, 20))
         if (g, b) == (25, 25):
             el_reg = [r for r in el_reg if r != character.region.lower()]
             print(f"The character is not from {character.region}!")
@@ -201,7 +210,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             know_region = True
 
     if not know_vision:
-        r, g, b = t.getpixel((667, 33))
+        r, g, b = t.getpixel((667, 20))
         if (g, b) == (25, 25):
             el_vis = [vis for vis in el_vis if vis != character.vision.lower()]
             print(f"The character is not {character.vision}!")
@@ -211,7 +220,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             know_vision = True
 
     if not know_weapon:
-        r, g, b = t.getpixel((777, 25))
+        r, g, b = t.getpixel((777, 20))
         if (g, b) == (25, 25):
             el_weap = [w for w in el_weap if w != character.weapon.lower()]
             print(f"The character does not use a {character.weapon}!")
@@ -221,7 +230,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             know_weapon = True
 
     if not know_version:
-        r, g, b = t.getpixel((888, 25))  # correct version
+        r, g, b = t.getpixel((888, 20))  # correct version
         if (g, b) != (25, 25):
             el_ver = [character.version]
             know_version = True
@@ -233,8 +242,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             for arrow in arrows:
                 try:
                     sleep(0.2)
-                    if (pyautogui.locateOnScreen(f".\Arrows\{arrow}.png", region=(472, 468, 976, 170), confidence=0.95) is not None):
-                        img = pyautogui.screenshot(region=(472, 468, 976, 170))
+                    if (pyautogui.locateOnScreen(f".\{arrow_folder}\{arrow}.png", region=arrow_location, confidence=0.95) is not None):
+                        img = pyautogui.screenshot(region=arrow_location)
                         img.save(r'.\logs\last arrow seen.png')
                         # try:
                         #     image = cv2.imread('last arrow seen.png')
@@ -267,15 +276,15 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
             else:
                 print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
                 try:
-                    with open('arrow.txt', 'a') as file:
+                    with open(r'.\logs\arrow.txt', 'a') as file:
                         file.write(f'\n{character.name}')
                 except FileNotFoundError:
-                    with open('arrow.txt', 'w') as file:
+                    with open(r'.\logs\arrow.txt', 'w') as file:
                         file.write(f'{character.name}')
 
                 # this should NOT occur and if it does, the program will not work optimally.
                 # if you notice this, try replacing the arrows i provided with screenshots of your own arrows
-                # (take them at 100% window size, in fullscreen and 100% system scale)
+                # (take them at 100% window size, in fullscreen and the respective display scale)
                 # if that doesn't help recognize the arrows, i haven't found a fix yet unfortunately
 
     # print(el_reg, el_vis, el_weap, el_ver)
@@ -311,6 +320,17 @@ master_test = test1 and test2 and test3
 if not master_test:
     keyboard.press_and_release('f11')
 
+pic = pyautogui.screenshot(region=(1100, 1, 2, 2))
+r, g, b = pic.getpixel((1, 1))
+if(r, g, b) == black:
+    scale125 = True
+    location = (472, 570, 976, 119)
+    arrows = ["2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+    arrow_folder = 'arrows 125% scale'
+    arrow_location = (472, 505, 976, 190)
+    click_y = 355
+else:
+    scale125 = False
 
 lost = False
 quit = False
@@ -338,8 +358,8 @@ while not lost and not quit and not daily:
             eligible_visions = visions.copy()
             eligible_weapons = weapons.copy()
             eligible_versions = versions.copy()
-        click(1000, 334)
-        click(1000, 334)
+        click(1000, click_y)
+        click(1000, click_y)
         time.sleep(0.1)
 
         # Count the occurrences of each property
@@ -372,7 +392,8 @@ while not lost and not quit and not daily:
                 break
         pic = pyautogui.screenshot(region=(550, 350, 2, 2))
         r, g, b = pic.getpixel((1, 1))
-        if (g > 80) and (r < 40):
+        # print(r, g, b)
+        if (scale125 and (g > 90) and (20 < r < 35) and (50 < b < 85)) or (not scale125 and (g > 80) and (r < 40)):
             print(f"We win - {writing.upper()}")
             # time.sleep(1)
             if not daily:
