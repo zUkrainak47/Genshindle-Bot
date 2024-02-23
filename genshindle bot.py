@@ -256,7 +256,7 @@ while not lost and not quit and not daily:
         quit = stop(quit)
         if quit:
             break
-        time.sleep(0.3)
+        time.sleep(0.33)
 
         quit = stop(quit)
         if quit:

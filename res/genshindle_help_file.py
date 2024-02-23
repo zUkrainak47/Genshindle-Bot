@@ -16,7 +16,7 @@ versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4]
 arrow_folder = 'arrows 100% scale'
-arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again"]
+arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again", "2 up arrow_because_daily_is_dumb", "1 down arrow_because_daily_is_dumb"]
 arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow",
                "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
