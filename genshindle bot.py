@@ -225,7 +225,7 @@ while not lost and not quit and not daily:
             version_counts[character.version]
         ))
         writing = char.name
-        most_common_count = max(
+        most_common_count = (
             region_counts[char.region],
             vision_counts[char.vision],
             weapon_counts[char.weapon],
@@ -252,7 +252,7 @@ while not lost and not quit and not daily:
             break
         else:
             print(f"Guessing {writing}...", end='')
-            print() if even_faster else print(f" ({most_common_count})")
+            print() if even_faster else print(f" {most_common_count}")
         quit = stop(quit)
         if quit:
             break
