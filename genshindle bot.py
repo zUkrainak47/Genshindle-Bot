@@ -128,7 +128,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
 
     if not know_version:
         time.sleep(0.05)
-        r, g, b = t.getpixel((888, 20))  # correct version
+        r, g, b = t.getpixel((950, 20))  # correct version
         if (g, b) != (25, 25):
             el_ver = [character.version]
             know_version = True

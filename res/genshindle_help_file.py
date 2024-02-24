@@ -67,6 +67,18 @@ def create_settings():
                    )
 
 
+# ChatGPT code:
+def count_shared_traits(character, characters):
+    count = 0
+    for other_character in characters:
+        if (other_character.region == character.region or
+                other_character.vision == character.vision or
+                other_character.weapon == character.weapon or
+                other_character.version == character.version):
+            count += 1
+    return count
+
+
 def read_log():
     try:
         with open('.\\logs\\log.txt', 'r') as file:
@@ -199,7 +211,7 @@ def update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, elig
 
 
 def identify_region(character, t, el_reg, even_faster):
-    r, g, b = t.getpixel((555, 20))
+    r, g, b = t.getpixel((620, 20))
     if (g, b) == (25, 25):
         if not even_faster:
             print(f"The character is not from {character.region}!")
@@ -210,7 +222,7 @@ def identify_region(character, t, el_reg, even_faster):
 
 
 def identify_vision(character, t, el_vis, even_faster):
-    r, g, b = t.getpixel((667, 20))
+    r, g, b = t.getpixel((730, 20))
     if (g, b) == (25, 25):
         if not even_faster:
             print(f"The character is not {character.vision}!")
@@ -221,7 +233,7 @@ def identify_vision(character, t, el_vis, even_faster):
 
 
 def identify_weapon(character, t, el_weap, even_faster):
-    r, g, b = t.getpixel((777, 20))
+    r, g, b = t.getpixel((840, 20))
     if (g, b) == (25, 25):
         if not even_faster:
             print(f"The character does not use a {character.weapon}!")
