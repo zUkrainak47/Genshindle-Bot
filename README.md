@@ -8,7 +8,7 @@ You can toggle between Endless Mode and Normal (Daily) Mode in `settings.txt`. \
 You can also toggle extra fast speed there.
 
 ### Usage
-Run `genshindle bot.py` to start automating. \
+Run `genshindle_bot.py` to start automating. \
 WHEN STARTING THE SCRIPT, MAKE SURE THAT THE LAST USED APPLICATION WAS YOUR BROWSER, THE PROGRAM USES ALT+TAB. \
 Also, make sure the opened tab is genshindle. \
 To pause the automation hold Ctrl.
