@@ -2,6 +2,9 @@
 ### About
 This program automates the genshindle endless mode found at https://genshindle.com/endless/
 
+### Tutorial
+https://youtu.be/s3UsQzUyHn8
+
 ### Setup
 Download ZIP and extract 👍 \
 You can toggle between Endless Mode and Normal (Daily) Mode in `settings.txt`. \
