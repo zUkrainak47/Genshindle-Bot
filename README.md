@@ -2,7 +2,7 @@
 ### About
 This program automates the genshindle endless mode found at https://genshindle.com/endless/
 
-### Tutorial
+### Showcase & Tutorial
 https://youtu.be/s3UsQzUyHn8
 
 ### Setup
