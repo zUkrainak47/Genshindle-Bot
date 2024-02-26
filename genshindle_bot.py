@@ -148,7 +148,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                         el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location)
                         break
                 except ImageNotFoundException:
-                    print(f"Couldn't locate {arrow}...")
+                    if not even_faster:
+                        print(f"Couldn't locate {arrow}...")
             else:
                 print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
                 didnt_find_any_arrows(character)
