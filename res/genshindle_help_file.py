@@ -224,7 +224,7 @@ def identify_region(character, t, el_reg, even_faster):
         print("Too fast to identify region, waiting 0.1 second to try again")
         sleep(0.1)
         t = screenshot(location)
-        r, g, b = t.getpixel((725, 15))
+        r, g, b = t.getpixel((615, 15))
     print(f"Region identification failed: ({r}, {g}, {b})")
 
 
@@ -260,7 +260,7 @@ def identify_weapon(character, t, el_weap, even_faster):
         print("Too fast to identify weapon, waiting 0.1 second to try again")
         sleep(0.1)
         t = screenshot(location)
-        r, g, b = t.getpixel((725, 15))
+        r, g, b = t.getpixel((835, 15))
     print(f"Weapon identification failed: ({r}, {g}, {b})")
 
 
