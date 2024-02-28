@@ -279,7 +279,6 @@ while not lost and not quit and not daily:
     quit = stop(quit)
     if quit:
         break
-if not daily_mode:
-    if elapsed_count:
-        print(f'\nAverage time: {elapsed_sum/elapsed_count:.6f} seconds')
-        print(f'Characters guessed: {elapsed_count}')
+if not daily_mode and elapsed_count:
+    print(f'\n--------------------------\n\nAverage time: {elapsed_sum/elapsed_count:.6f} seconds')
+    print(f'Characters guessed correctly: {elapsed_count}')
