@@ -188,8 +188,8 @@ daily = False
 
 elapsed_sum = 0.0
 elapsed_count = 0
-# while not lost and not quit and not daily:
-for x in range(1000):
+# for x in range(1000):
+while not lost and not quit and not daily:
     start = time.perf_counter()
     if daily_mode:
         daily = True
@@ -280,5 +280,5 @@ for x in range(1000):
     if quit:
         break
 if not daily_mode:
-    print(f'Average time: {elapsed_sum/elapsed_count:.6f} seconds')
+    print(f'\nAverage time: {elapsed_sum/elapsed_count:.6f} seconds')
     print(f'Characters guessed: {elapsed_count}')
