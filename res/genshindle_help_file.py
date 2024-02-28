@@ -7,16 +7,18 @@ import keyboard
 import win32api
 import win32con
 import json
+from collections import Counter
 
 visions = ["pyro", "hydro", "cryo", "anemo", "geo", "electro", "dendro"]
 regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"]
 weapons = ["sword", "claymore", "polearm", "catalyst", "bow"]
-versions = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
+versions = {1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
-            4.0, 4.1, 4.2, 4.3, 4.4]
+            4.0, 4.1, 4.2, 4.3, 4.4}
 arrow_folder = 'arrows 100% scale'
-arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again", "2 up arrow_because_daily_is_dumb", "1 down arrow_because_daily_is_dumb"]
+arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again",
+          "2 up arrow_because_daily_is_dumb", "1 down arrow_because_daily_is_dumb"]
 arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow",
                "1 up arrow", "1 down arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
@@ -77,6 +79,34 @@ def count_shared_traits(character, characters):
                 other_character.version == character.version):
             count += 1
     return count
+
+
+# ChatGPT code:
+def choose_character(pool):
+    # Count the occurrences of each property
+    region_counts = Counter(character.region for character in pool)
+    vision_counts = Counter(character.vision for character in pool)
+    weapon_counts = Counter(character.weapon for character in pool)
+    version_counts = Counter(character.version for character in pool)
+
+    # Find the character with the most common properties
+    char = max(pool, key=lambda character: (
+        region_counts[character.region],
+        vision_counts[character.vision],
+        weapon_counts[character.weapon],
+        version_counts[character.version]
+    ))
+    writing = char.name
+    most_common_count = (
+        region_counts[char.region],
+        vision_counts[char.vision],
+        weapon_counts[char.weapon],
+        version_counts[char.version]
+    )
+    return writing, most_common_count, char
+
+
+# Thanks ChatGPT
 
 
 def read_log():
@@ -163,8 +193,9 @@ def win(scale125, r, g, b):
     return False
 
 
-def write_logs(writing, daily, log, characters, even_faster):
+def write_logs(writing, daily, log, characters, even_faster, start):
     print(f"We win - {writing.upper()}")
+    end = time.perf_counter()
     # time.sleep(1)
     if not daily:
         if writing in log:
@@ -185,7 +216,11 @@ def write_logs(writing, daily, log, characters, even_faster):
                 print(f"You discovered {writing}!{progress}")
         with open(r'.\logs\log.txt', 'w') as file:
             file.write(json.dumps(log))
+    elapsed = end - start
+    print(f'Time taken: {elapsed:.6f} seconds')
+    if not daily:
         print("\n--------------------------\n")
+    return elapsed
 
 
 def check_for_125_scale(r, g, b, location, arrows_wrio, arrow_folder, arrow_location, click_y):
@@ -202,12 +237,12 @@ def check_for_125_scale(r, g, b, location, arrows_wrio, arrow_folder, arrow_loca
 
 
 def update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing):
-    return [character for character in pool if
-     ((character.region.lower() in eligible_regions) and
-      (character.vision.lower() in eligible_visions) and
-      (character.weapon.lower() in eligible_weapons) and
-      (character.version in eligible_versions) and
-      (character.name is not writing))]
+    return set(character for character in pool if
+               ((character.region.lower() in eligible_regions) and
+                (character.vision.lower() in eligible_visions) and
+                (character.weapon.lower() in eligible_weapons) and
+                (character.version in eligible_versions) and
+                (character.name is not writing)))
 
 
 def identify_region(character, t, el_reg, even_faster):
@@ -216,11 +251,12 @@ def identify_region(character, t, el_reg, even_faster):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character is not from {character.region}!")
-            return False, [r for r in el_reg if r != character.region.lower()]
+            el_reg.remove(character.region.lower())
+            return False, el_reg
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
                 print(f"The character is from {character.region}!")
-            return True, [character.region.lower()]
+            return True, set(character.region.lower())
         print("Too fast to identify region, waiting 0.1 second to try again")
         sleep(0.1)
         t = screenshot(location)
@@ -275,11 +311,11 @@ def identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location):
         print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
     if arrow_list[0] == '1':
         if arrow_list[1] == 'up':
-            return [ver for ver in el_ver if ((ver > character.version) and (ver - character.version <= 1))]
-        return [ver for ver in el_ver if ((ver < character.version) and (character.version - ver <= 1))]
+            return set(ver for ver in el_ver if ((ver > character.version) and (ver - character.version <= 1)))
+        return set(ver for ver in el_ver if ((ver < character.version) and (character.version - ver <= 1)))
     elif arrow_list[1] == 'up':
-        return [ver for ver in el_ver if ((ver > character.version) and (ver - character.version > 1))]
-    return [ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1))]
+        return set(ver for ver in el_ver if ((ver > character.version) and (ver - character.version > 1)))
+    return set(ver for ver in el_ver if ((ver < character.version) and (character.version - ver > 1)))
 
 
 def didnt_find_any_arrows(character):

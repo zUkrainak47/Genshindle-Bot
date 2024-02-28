@@ -1,4 +1,3 @@
-from collections import Counter
 from pathlib import Path
 from res.genshindle_help_file import *
 
@@ -26,7 +25,7 @@ class Character:
         self.version = version
 
 
-characters = [Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
+characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Barbara", "mondstadt", "Hydro", "Catalyst", 1.0),
               Character("Beidou", "liyue", "Electro", "Claymore", 1.0),
               Character("Bennett", "mondstadt", "Pyro", "Sword", 1.0),
@@ -103,15 +102,15 @@ characters = [Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Chevreuse", "fontaine", "Pyro", "Polearm", 4.3),
               Character("Navia", "fontaine", "Geo", "Claymore", 4.3),
               Character("Gaming", "liyue", "Pyro", "Claymore", 4.4),
-              Character("Xianyun", "liyue", "Anemo", "Catalyst", 4.4)]
+              Character("Xianyun", "liyue", "Anemo", "Catalyst", 4.4)}
 
-# characters.append(Character("Chiori", "liyue", "Geo", "Sword", 4.5))
+# Character("Chiori", "liyue", "Geo", "Sword", 4.5)
 
-pool = []
+pool = set()
 eligible_regions = []
 eligible_visions = []
 eligible_weapons = []
-eligible_versions = []
+eligible_versions = set()
 
 
 def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, character):
@@ -130,12 +129,12 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
         time.sleep(0.05)
         r, g, b = t.getpixel((950, 20))  # correct version
         if (g, b) != (25, 25):
-            el_ver = [character.version]
+            el_ver = set(character.version)
             know_version = True
         else:
             if not even_faster:
                 log_incorrect_version(character, location)
-            el_ver = [ver for ver in el_ver if ver != character.version]
+            el_ver.remove(character.version)
             if character.name == "Wriothesley":
                 arrows_to_go_through = arrows_wrio
             else:
@@ -146,6 +145,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     if (pyautogui.locateOnScreen(f".\\res\\{arrow_folder}\\{arrow}.png", region=arrow_location,
                                                  confidence=0.95) is not None):
                         el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location)
+                        if len(el_ver) == 1:
+                            know_version = True
                         break
                 except ImageNotFoundException:
                     if not even_faster:
@@ -185,8 +186,11 @@ lost = False
 quit = False
 daily = False
 
-while not lost and not quit and not daily:
-
+elapsed_sum = 0.0
+elapsed_count = 0
+# while not lost and not quit and not daily:
+for x in range(1000):
+    start = time.perf_counter()
     if daily_mode:
         daily = True
 
@@ -200,39 +204,20 @@ while not lost and not quit and not daily:
         quit = stop(quit)
         if quit:
             break
-        if not flag:
+
+        if flag:
+            writing, most_common_count, char = choose_character(pool)
+        else:
             flag = True
             pool = characters.copy()
             eligible_regions = regions.copy()
             eligible_visions = visions.copy()
             eligible_weapons = weapons.copy()
             eligible_versions = versions.copy()
+            writing, most_common_count, char = "Qiqi", 55, Character("Qiqi", "liyue", "Cryo", "Sword", 1.0)
         click(1000, click_y)
         click(1000, click_y)
         time.sleep(0.1)
-
-        # ChatGPT code:
-        # Count the occurrences of each property
-        region_counts = Counter(character.region for character in pool)
-        vision_counts = Counter(character.vision for character in pool)
-        weapon_counts = Counter(character.weapon for character in pool)
-        version_counts = Counter(character.version for character in pool)
-
-        # Find the character with the most common properties
-        char = max(pool, key=lambda character: (
-            region_counts[character.region],
-            vision_counts[character.vision],
-            weapon_counts[character.weapon],
-            version_counts[character.version]
-        ))
-        writing = char.name
-        most_common_count = (
-            region_counts[char.region],
-            vision_counts[char.vision],
-            weapon_counts[char.weapon],
-            version_counts[char.version]
-        )
-        # Thanks ChatGPT
 
         keyboard.write(writing)
         keyboard.press_and_release('enter')
@@ -245,7 +230,9 @@ while not lost and not quit and not daily:
         r, g, b = pic.getpixel((1, 1))
         # print(r, g, b)
         if win(scale125, r, g, b):
-            write_logs(writing, daily, log, characters, even_faster)
+            elapsed = write_logs(writing, daily, log, characters, even_faster, start)
+            elapsed_sum += elapsed
+            elapsed_count += 1
             break
         elif r >= 50:
             print(f"We lose. Pool: {[character.name for character in pool]}")
@@ -292,3 +279,5 @@ while not lost and not quit and not daily:
     quit = stop(quit)
     if quit:
         break
+print(f'Average time: {elapsed_sum/elapsed_count:.6f} seconds')
+print(f'Characters guessed: {elapsed_count} seconds')
