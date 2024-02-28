@@ -334,11 +334,11 @@ def log_incorrect_version(character, location):
 
 def print_mode(daily_mode, even_faster):
     if daily_mode:
-        print("Solving normal mode", end=" ")
+        print("\nSolving normal mode", end=" ")
     else:
-        print("Solving endless mode", end=" ")
+        print("\nSolving endless mode", end=" ")
     if even_faster:
         print("at supersonic speed")
     else:
         print("at moderate speed")
-    print()
+    print("\n--------------------------\n")
