@@ -217,7 +217,7 @@ def write_logs(writing, daily, log, characters, even_faster, start):
         with open(r'.\logs\log.txt', 'w') as file:
             file.write(json.dumps(log))
     elapsed = end - start
-    print(f'Time taken: {elapsed:.6f} seconds')
+    print(f'Time taken: {elapsed + bool(not even_faster):.6f} seconds')
     if not daily:
         print("\n--------------------------\n")
     return elapsed

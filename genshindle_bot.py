@@ -214,7 +214,8 @@ while not lost and not quit and not daily:
             eligible_visions = visions.copy()
             eligible_weapons = weapons.copy()
             eligible_versions = versions.copy()
-            writing, most_common_count, char = "Qiqi", 55, Character("Qiqi", "liyue", "Cryo", "Sword", 1.0)
+            writing, most_common_count, char = \
+                "Qiqi", (20, 15, 17, 21), Character("Qiqi", "liyue", "Cryo", "Sword", 1.0)
         click(1000, click_y)
         click(1000, click_y)
         time.sleep(0.1)
@@ -280,5 +281,6 @@ while not lost and not quit and not daily:
     if quit:
         break
 if not daily_mode and elapsed_count:
-    print(f'\n--------------------------\n\nAverage time: {elapsed_sum/elapsed_count:.6f} seconds')
+    print(f'\n--------------------------\n\n'
+          f'Average time: {elapsed_sum/elapsed_count + bool(not even_faster):.6f} seconds')
     print(f'Characters guessed correctly: {elapsed_count}')
