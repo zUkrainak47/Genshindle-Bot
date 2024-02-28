@@ -126,39 +126,48 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
         know_weapon, el_weap = identify_weapon(character, t, el_weap, even_faster)
 
     if not know_version:
-        time.sleep(0.05)
-        r, g, b = t.getpixel((950, 20))  # correct version
-        if (g, b) != (25, 25):
-            el_ver = {character.version}
-            know_version = True
+        r, g, b = t.getpixel((950, 15))  # correct version
+        for x in range(3):
+            if (r, g, b) == (29, 145, 40):
+                el_ver = {character.version}
+                know_version = True
+                break
+            elif (r, g, b) == (126, 25, 25):
+                if not even_faster:
+                    log_incorrect_version(character, location)
+                el_ver.remove(character.version)
+                if character.name == "Wriothesley":
+                    arrows_to_go_through = arrows_wrio
+                else:
+                    arrows_to_go_through = arrows
+                for arrow in arrows_to_go_through:
+                    try:
+                        if (pyautogui.locateOnScreen(f".\\res\\{arrow_folder}\\{arrow}.png", region=arrow_location,
+                                                     confidence=0.95) is not None):
+                            el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location)
+                            if len(el_ver) == 1:
+                                know_version = True
+                            break
+                    except ImageNotFoundException:
+                        if not even_faster:
+                            print(f"Couldn't locate {arrow}...")
+                else:
+                    print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
+                    didnt_find_any_arrows(character)
+                    # this should NOT occur and if it does, the program will not work optimally.
+                    # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
+                    # (take them at 100% window size, in fullscreen and the respective display scale)
+                    # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
+                    break
+            else:
+                print("Too fast to identify version, waiting 0.1 second to try again")
+                sleep(0.1)
+                t = screenshot(location)
+                t.save(r'.\logs\version.png')
+                r, g, b = t.getpixel((950, 15))
         else:
-            if not even_faster:
-                log_incorrect_version(character, location)
-            el_ver.remove(character.version)
-            if character.name == "Wriothesley":
-                arrows_to_go_through = arrows_wrio
-            else:
-                arrows_to_go_through = arrows
-            for arrow in arrows_to_go_through:
-                try:
-                    # sleep(0.2)
-                    if (pyautogui.locateOnScreen(f".\\res\\{arrow_folder}\\{arrow}.png", region=arrow_location,
-                                                 confidence=0.95) is not None):
-                        el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location)
-                        if len(el_ver) == 1:
-                            know_version = True
-                        break
-                except ImageNotFoundException:
-                    if not even_faster:
-                        print(f"Couldn't locate {arrow}...")
-            else:
-                print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
-                didnt_find_any_arrows(character)
+            print(f"Version identification failed: ({r}, {g}, {b})")
 
-                # this should NOT occur and if it does, the program will not work optimally.
-                # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
-                # (take them at 100% window size, in fullscreen and the respective display scale)
-                # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
 
     # print(el_reg, el_vis, el_weap, el_ver)
     if not even_faster:
