@@ -125,9 +125,12 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
     if not know_weapon:
         know_weapon, el_weap = identify_weapon(character, t, el_weap, even_faster)
 
+    flag2 = False
     if not know_version:
         r, g, b = t.getpixel((950, 15))  # correct version
         for x in range(3):
+            if flag2:
+                break
             if (r, g, b) == (29, 145, 40):
                 el_ver = {character.version}
                 know_version = True
@@ -147,6 +150,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                             el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location)
                             if len(el_ver) == 1:
                                 know_version = True
+                            flag2 = True
                             break
                     except ImageNotFoundException:
                         if not even_faster:
@@ -167,7 +171,6 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 r, g, b = t.getpixel((950, 15))
         else:
             print(f"Version identification failed: ({r}, {g}, {b})")
-
 
     # print(el_reg, el_vis, el_weap, el_ver)
     if not even_faster:
@@ -291,5 +294,5 @@ while not lost and not quit and not daily:
         break
 if not daily_mode and elapsed_count:
     print(f'\n--------------------------\n\n'
-          f'Average time: {elapsed_sum/elapsed_count + bool(not even_faster):.6f} seconds')
+          f'Average time: {elapsed_sum / elapsed_count + bool(not even_faster):.6f} seconds')
     print(f'Characters guessed correctly: {elapsed_count}')
