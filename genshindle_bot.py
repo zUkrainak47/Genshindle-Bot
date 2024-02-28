@@ -129,7 +129,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
         time.sleep(0.05)
         r, g, b = t.getpixel((950, 20))  # correct version
         if (g, b) != (25, 25):
-            el_ver = set(character.version)
+            el_ver = {character.version}
             know_version = True
         else:
             if not even_faster:
@@ -279,5 +279,6 @@ for x in range(1000):
     quit = stop(quit)
     if quit:
         break
-print(f'Average time: {elapsed_sum/elapsed_count:.6f} seconds')
-print(f'Characters guessed: {elapsed_count} seconds')
+if not daily_mode:
+    print(f'Average time: {elapsed_sum/elapsed_count:.6f} seconds')
+    print(f'Characters guessed: {elapsed_count}')

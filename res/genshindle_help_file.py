@@ -251,12 +251,11 @@ def identify_region(character, t, el_reg, even_faster):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character is not from {character.region}!")
-            el_reg.remove(character.region.lower())
-            return False, el_reg
+            return False, [reg for reg in el_reg if reg != character.region.lower()]
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
                 print(f"The character is from {character.region}!")
-            return True, set(character.region.lower())
+            return True, [character.region.lower()]
         print("Too fast to identify region, waiting 0.1 second to try again")
         sleep(0.1)
         t = screenshot(location)
