@@ -341,4 +341,4 @@ if not daily_mode and elapsed_count:
 really_end = time.perf_counter()
 run_time = really_end - really_start
 to_hours = time.strftime("%T", time.gmtime(run_time))
-print(f'\nThe script was running for {to_hours}:{int(1000*(run_time % 1))} ({run_time:.3f} seconds)')
+print(f'\nThe script was running for {to_hours}:{str(run_time % 1)[2:5]} ({str(run_time)[2:5]} seconds)')

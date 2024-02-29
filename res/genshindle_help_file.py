@@ -344,4 +344,4 @@ def print_mode(daily_mode, even_faster):
         print("at supersonic speed")
     else:
         print("at moderate speed")
-    print("\n--------------------------\n")
+    print("\n-------------------------------\n")
