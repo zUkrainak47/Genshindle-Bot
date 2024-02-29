@@ -246,7 +246,7 @@ def update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, elig
 
 
 def identify_region(character, t, el_reg, even_faster, elapsed_count):
-    r, g, b = t.getpixel((580, 105))
+    r, g, b = t.getpixel((580, 15))
     for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
@@ -261,12 +261,12 @@ def identify_region(character, t, el_reg, even_faster, elapsed_count):
         sleep(0.005)
         t = screenshot(location)
         t.save(f'.\\logs\\region_{elapsed_count % 10}.png')
-        r, g, b = t.getpixel((580, 105))
+        r, g, b = t.getpixel((580, 15))
     print(f"Region identification failed: ({r}, {g}, {b})")
 
 
 def identify_vision(character, t, el_vis, even_faster, elapsed_count):
-    r, g, b = t.getpixel((692, 105))
+    r, g, b = t.getpixel((692, 15))
     for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
@@ -281,12 +281,12 @@ def identify_vision(character, t, el_vis, even_faster, elapsed_count):
         sleep(0.005)
         t = screenshot(location)
         t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
-        r, g, b = t.getpixel((692, 105))
+        r, g, b = t.getpixel((692, 15))
     print(f"Vision identification failed: ({r}, {g}, {b})")
 
 
 def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
-    r, g, b = t.getpixel((800, 105))
+    r, g, b = t.getpixel((800, 15))
     for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
@@ -301,7 +301,7 @@ def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
         sleep(0.005)
         t = screenshot(location)
         t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
-        r, g, b = t.getpixel((800, 105))
+        r, g, b = t.getpixel((800, 15))
     print(f"Weapon identification failed: ({r}, {g}, {b})")
 
 
