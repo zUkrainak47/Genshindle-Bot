@@ -18,8 +18,7 @@ To pause the automation hold Ctrl.
 
 ### Known issues
 The program only supports 1080p screens. \
-Display scales 100% and 125% are supported. \
-If the game versions aren't recognized correctly, refer to line 167 in the code.
+Display scales 100% and 125% are supported.
 
 ## Special thanks to
 alterpadoru and clevernt on discord \

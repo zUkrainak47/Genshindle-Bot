@@ -1,4 +1,3 @@
-import time
 from pathlib import Path
 from res.genshindle_help_file import *
 
@@ -145,7 +144,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 break
             elif (r, g, b) == (126, 25, 25):
                 if not even_faster:
-                    log_incorrect_version(character, location)
+                    log_incorrect_version(character, location, elapsed_count)
                 el_ver.remove(character.version)
                 if character.name == "Wriothesley":
                     arrows_to_go_through = arrows_wrio
@@ -155,16 +154,16 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     try:
                         if (pyautogui.locateOnScreen(f".\\res\\{arrow_folder}\\{arrow}.png", region=arrow_location,
                                                      confidence=0.95) is not None):
-                            el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location)
+                            el_ver = identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location, elapsed_count)
                             if len(el_ver) == 1:
                                 know_version = True
                             flag2 = True
                             break
                     except ImageNotFoundException:
                         if not even_faster:
-                            print(f"Couldn't locate {arrow}...")
+                            print(f"{fill_spaces(elapsed_count)}Couldn't locate {arrow}...")
                 else:
-                    print("THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS")
+                    print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 168 IN THE CODE")
                     didnt_find_any_arrows(character)
                     # this should NOT occur and if it does, the program will not work optimally.
                     # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
@@ -175,17 +174,17 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, True
             else:
                 if not even_faster:
-                    print("Too fast to identify version, waiting 0.005 seconds to try again")
+                    print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
                 sleep(0.005)
                 t = screenshot(location)
                 t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
                 r, g, b = t.getpixel((915, 15))
         else:
-            print(f"Version identification failed: ({r}, {g}, {b})")
+            print(f"{fill_spaces(elapsed_count)}Version identification failed: ({r}, {g}, {b})")
 
     # print(el_reg, el_vis, el_weap, el_ver)
     if not even_faster:
-        print("Possible versions:", el_ver)
+        print(f"{fill_spaces(elapsed_count)}Possible versions: {el_ver}")
     return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, False
 
 
@@ -221,11 +220,11 @@ while not lost and not quit and not daily:
     know_vision, know_region, know_weapon, know_version = False, False, False, False
     flag = False
     for i in range(5):
-        # quit = stop(quit)
+        # quit = stop(quit, {fill_spaces(elapsed_count)})
         # if quit:
         #     break
         # time.sleep(3)
-        quit = stop(quit)
+        quit = stop(quit, elapsed_count)
         if quit:
             break
 
@@ -233,7 +232,7 @@ while not lost and not quit and not daily:
             try:
                 writing, most_common_count, char = choose_character(pool)
             except ValueError:
-                print("We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
+                print(f"{fill_spaces(elapsed_count)}We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
                 quit = True
                 break
         else:
@@ -252,10 +251,10 @@ while not lost and not quit and not daily:
         keyboard.write(writing)
         keyboard.press_and_release('enter')
         time.sleep(0.05)
-        if daily:
-            quit = stop(quit)
-            if quit:
-                break
+        # if daily:
+        #     quit = stop(quit, elapsed_count)
+        #     if quit:
+        #         break
         pic = pyautogui.screenshot(region=(550, 350, 2, 2))
         r, g, b = pic.getpixel((1, 1))
         if writing == "Qiqi" and win(scale125, r, g, b):
@@ -264,27 +263,27 @@ while not lost and not quit and not daily:
             r, g, b = pic.getpixel((1, 1))
         # print(r, g, b)
         if win(scale125, r, g, b):
-            write_logs(writing, daily, log, characters, even_faster)
+            write_logs(writing, daily, log, characters, even_faster, elapsed_count)
             break
         elif r >= 50:
-            print(f"We lose. Pool: {[character.name for character in pool]}")
+            print(f"{fill_spaces(elapsed_count)}We lose. Pool: {[character.name for character in pool]}")
             lost = True
             break
         else:
-            print(f"Guessing {writing}...", end='')
+            print(f"{fill_spaces(elapsed_count)}Guessing {writing}...", end='')
             print() if even_faster else print(f" {most_common_count}")
         time.sleep(0.1)
-        quit = stop(quit)
+        quit = stop(quit, elapsed_count)
         if quit:
             break
         time.sleep(0.33)
 
-        quit = stop(quit)
+        quit = stop(quit, elapsed_count)
         if quit:
             break
 
         if daily:
-            print("Waiting for the cards to flip...")
+            print(f"{fill_spaces(elapsed_count)}Waiting for the cards to flip...")
             time.sleep(0.4)
             waiting()
 
@@ -299,17 +298,17 @@ while not lost and not quit and not daily:
             pic = pyautogui.screenshot(region=(550, 350, 2, 2))
             r, g, b = pic.getpixel((1, 1))
             if win(scale125, r, g, b):
-                write_logs(writing, daily, log, characters, even_faster)
+                write_logs(writing, daily, log, characters, even_faster, elapsed_count)
                 break
         else:
             pool = update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing)
             if not even_faster:
-                print(f"{len(pool)} left in the pool\n")
-            quit = stop(quit)
+                print(f"{fill_spaces(elapsed_count)}{len(pool)} left in the pool\n")
+            quit = stop(quit, elapsed_count)
             if quit:
                 break
     else:
-        print(f"We do not win. Pool: {[character.name for character in pool]}")
+        print(f"{fill_spaces(elapsed_count)}We do not win. Pool: {[character.name for character in pool]}")
         break
 
     if not even_faster:
@@ -317,29 +316,26 @@ while not lost and not quit and not daily:
 
     end = time.perf_counter()
     elapsed = end - start
-    print(f'Time taken: {elapsed:.3f} seconds')
-    if not daily:
-        print("\n-------------------------------\n")
+    print(f'{fill_spaces(elapsed_count)}Time taken: {elapsed:.3f} seconds')
     if not quit:
         elapsed_sum += elapsed
         elapsed_count += 1
-
+        if not daily:
+            print(f"\n ({elapsed_count + 1}) -------------------------------\n")
     if quit:
         break
-    quit = stop(quit)
-    if quit:
-        break
-    quit = stop(quit)
+    quit = stop(quit, elapsed_count)
     if quit:
         break
 
 if not daily_mode and elapsed_count:
-    print(f'Average time per correct guess: {elapsed_sum / elapsed_count + bool(not even_faster):.3f} seconds')
-    print(f'Characters guessed correctly: {elapsed_count}')
-    print(f'Total characters guessed: {sum(log.values())}')
+    print(f'\n  ---------------------------------------------------\n\n'
+          f'   Average time per correct guess: {elapsed_sum / elapsed_count:.3f} seconds')
+    print(f'   Characters guessed correctly: {elapsed_count}')
+    print(f'   Total characters found: {sum(log.values())}')
 
 really_end = time.perf_counter()
 run_time = really_end - really_start
 to_hours = time.strftime("%T", time.gmtime(run_time))
 decimals = f'{(run_time % 1):.3f}'
-print(f'\nThe script was running for {to_hours}:{str(decimals)[2:]} ({run_time:.3f} seconds)')
+print(f'\n   The script was running for {to_hours}:{str(decimals)[2:]} ({run_time:.3f} seconds)')

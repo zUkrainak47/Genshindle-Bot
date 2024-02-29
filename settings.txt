@@ -3,7 +3,7 @@ set to 1 to use in Normal (daily) Mode.
 set to 0 to use in Endless Mode.
 
 even_faster = 1
-set to 1 to make the script run around 33% faster. that affects win screen time & console and image logs.
+set to 1 to make the script run around 38% faster. that affects win screen time & console and image logs.
 set to 0 to be able to see which character was the solution & see more console logs and image logs.
 
 delete this file (settings.txt) to restore defaults

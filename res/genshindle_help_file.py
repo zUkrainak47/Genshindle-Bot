@@ -17,14 +17,18 @@ versions = {1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
             4.0, 4.1, 4.2, 4.3, 4.4}
 arrow_folder = 'arrows 100% scale'
-arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again",
-          "2 up arrow_because_daily_is_dumb", "1 down arrow_because_daily_is_dumb"]
+arrows = ["2 up arrow", "2 up arrow_because_daily_is_dumb", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again",
+          "1 down arrow_because_daily_is_dumb"]
 arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "1 down arrow", "2 up arrow",
                "2 down arrow", "1 up arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
-arrow_location = (472, 468, 976, 170)
+arrow_location = (1320, 468, 139, 170)
 click_y = 334
+
+
+def fill_spaces(num):
+    return (5 + len(str(num + 1))) * " "
 
 
 # ChatGPT code:
@@ -60,8 +64,8 @@ def create_settings():
                    'set to 1 to use in Normal (daily) Mode.\n'
                    'set to 0 to use in Endless Mode.\n\n'
 
-                   'even_faster = 0\n'
-                   'set to 1 to make the script run around 33% faster. that affects win screen time & console and '
+                   'even_faster = 1\n'
+                   'set to 1 to make the script run around 38% faster. that affects win screen time & console and '
                    'image logs.\n'
                    'set to 0 to be able to see which character was the solution & see more console logs and image logs.'
                    '\n\n'
@@ -104,9 +108,7 @@ def choose_character(pool):
         version_counts[char.version]
     )
     return writing, most_common_count, char
-
-
-# Thanks ChatGPT
+# Thanks, ChatGPT
 
 
 def read_log():
@@ -179,10 +181,10 @@ def f11():
     return False
 
 
-def stop(q):
+def stop(q, num):
     if keyboard.is_pressed('ctrl'):
         if not q:
-            print("You quit")
+            print(f"{fill_spaces(num)}You quit")
         return True
     return False
 
@@ -193,8 +195,8 @@ def win(scale125, r, g, b):
     return False
 
 
-def write_logs(writing, daily, log, characters, even_faster):
-    print(f"We win - {writing.upper()}")
+def write_logs(writing, daily, log, characters, even_faster, num):
+    print(f"{fill_spaces(num)}We win - {writing.upper()}")
     # time.sleep(1)
     if not daily:
         if writing in log:
@@ -204,7 +206,7 @@ def write_logs(writing, daily, log, characters, even_faster):
             else:
                 progress = ' You found every character!'
             if not even_faster:
-                print(f"You found {writing} {log[writing]} times!{progress}")
+                print(f"{fill_spaces(num)}You found {writing} {log[writing]} times!{progress} {sum(log.values())} characters found in total.")
         else:
             log[writing] = 1
             if len(log) != len(characters):
@@ -212,7 +214,7 @@ def write_logs(writing, daily, log, characters, even_faster):
             else:
                 progress = ' You found every character!'
             if not even_faster:
-                print(f"You discovered {writing}!{progress}")
+                print(f"{fill_spaces(num)}You discovered {writing}!{progress} {sum(log.values())} characters found in total.")
         with open(r'.\logs\log.txt', 'w') as file:
             file.write(json.dumps(log))
 
@@ -223,7 +225,7 @@ def check_for_125_scale(r, g, b, location, arrows_wrio, arrow_folder, arrow_loca
         location = (472, 570, 976, 119)
         arrows_wrio = ["2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
         arrow_folder = 'arrows 125% scale'
-        arrow_location = (472, 505, 976, 190)
+        arrow_location = (1320, 505, 139, 190)
         click_y = 355
     else:
         scale125 = False
@@ -244,21 +246,21 @@ def identify_region(character, t, el_reg, even_faster, elapsed_count):
     for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
-                print(f"The character is not from {character.region}!")
+                print(f"{fill_spaces(elapsed_count)}The character is not from {character.region}!")
             return False, [reg for reg in el_reg if reg != character.region.lower()], False
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
-                print(f"The character is from {character.region}!")
+                print(f"{fill_spaces(elapsed_count)}The character is from {character.region}!")
             return True, [character.region.lower()], False
         elif (r, g, b) == (9, 52, 76):
             return True, True, True
         if not even_faster:
-            print("Too fast to identify region, waiting 0.005 seconds to try again")
+            print(f"{fill_spaces(elapsed_count)}Too fast to identify region, waiting 0.005 seconds to try again")
         sleep(0.005)
         t = screenshot(location)
         t.save(f'.\\logs\\region_{elapsed_count % 10}.png')
         r, g, b = t.getpixel((580, 15))
-    print(f"Region identification failed: ({r}, {g}, {b})")
+    print(f"{fill_spaces(elapsed_count)}Region identification failed: ({r}, {g}, {b})")
 
 
 def identify_vision(character, t, el_vis, even_faster, elapsed_count):
@@ -266,21 +268,21 @@ def identify_vision(character, t, el_vis, even_faster, elapsed_count):
     for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
-                print(f"The character is not {character.vision}!")
+                print(f"{fill_spaces(elapsed_count)}The character is not {character.vision}!")
             return False, [vis for vis in el_vis if vis != character.vision.lower()], False
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
-                print(f"The character is {character.vision}!")
+                print(f"{fill_spaces(elapsed_count)}The character is {character.vision}!")
             return True, [character.vision.lower()], False
         elif (r, g, b) == (9, 52, 76):
             return True, True, True
         if not even_faster:
-            print("Too fast to identify vision, waiting 0.005 seconds to try again")
+            print(f"{fill_spaces(elapsed_count)}Too fast to identify vision, waiting 0.005 seconds to try again")
         sleep(0.005)
         t = screenshot(location)
         t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
         r, g, b = t.getpixel((692, 15))
-    print(f"Vision identification failed: ({r}, {g}, {b})")
+    print(f"{fill_spaces(elapsed_count)}Vision identification failed: ({r}, {g}, {b})")
 
 
 def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
@@ -288,29 +290,29 @@ def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
     for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
-                print(f"The character does not use a {character.weapon}!")
+                print(f"{fill_spaces(elapsed_count)}The character does not use a {character.weapon}!")
             return False, [w for w in el_weap if w != character.weapon.lower()], False
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
-                print(f"The character uses a {character.weapon}!")
+                print(f"{fill_spaces(elapsed_count)}The character uses a {character.weapon}!")
             return True, [character.weapon.lower()], False
         elif (r, g, b) == (9, 52, 76):
             return True, True, True
         if not even_faster:
-            print("Too fast to identify weapon, waiting 0.005 seconds to try again")
+            print(f"{fill_spaces(elapsed_count)}Too fast to identify weapon, waiting 0.005 seconds to try again")
         sleep(0.005)
         t = screenshot(location)
         t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
         r, g, b = t.getpixel((800, 15))
-    print(f"Weapon identification failed: ({r}, {g}, {b})")
+    print(f"{fill_spaces(elapsed_count)}Weapon identification failed: ({r}, {g}, {b})")
 
 
-def identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location):
+def identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location, num):
     arrow_list = arrow.split()[:-1]
     if not even_faster:
         img = pyautogui.screenshot(region=arrow_location)
         img.save(r'.\logs\last arrow seen.png')
-        print(f"They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
+        print(f"{fill_spaces(num)}They released{arrow_map[arrow_list[0]]} {arrow_map[arrow_list[1]]}")
     if arrow_list[0] == '1':
         if arrow_list[1] == 'up':
             return set(ver for ver in el_ver if ((ver > character.version) and (ver - character.version <= 1)))
@@ -329,19 +331,19 @@ def didnt_find_any_arrows(character):
             file.write(f'{character.name}')
 
 
-def log_incorrect_version(character, location):
-    print(f"The character did not release in {character.version}!")
+def log_incorrect_version(character, location, num):
+    print(f"{fill_spaces(num)}The character did not release in {character.version}!")
     img = pyautogui.screenshot(region=location)
     img.save(r'.\logs\last incorrect version seen.png')
 
 
 def print_mode(daily_mode, even_faster):
     if daily_mode:
-        print("\nSolving normal mode", end=" ")
+        print("\n Solving normal mode", end=" ")
     else:
-        print("\nSolving endless mode", end=" ")
+        print("\n Solving endless mode", end=" ")
     if even_faster:
         print("at supersonic speed")
     else:
         print("at moderate speed")
-    print("\n-------------------------------\n")
+    print("\n (1) -------------------------------\n")
