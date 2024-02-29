@@ -246,8 +246,8 @@ def update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, elig
 
 
 def identify_region(character, t, el_reg, even_faster, elapsed_count):
-    r, g, b = t.getpixel((615, 15))
-    for x in range(5):
+    r, g, b = t.getpixel((580, 15))
+    for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character is not from {character.region}!")
@@ -257,17 +257,17 @@ def identify_region(character, t, el_reg, even_faster, elapsed_count):
                 print(f"The character is from {character.region}!")
             return True, [character.region.lower()]
         if not even_faster:
-            print("Too fast to identify region, waiting 0.025 seconds to try again")
-        sleep(0.025)
+            print("Too fast to identify region, waiting 0.005 seconds to try again")
+        sleep(0.005)
         t = screenshot(location)
-        t.save(f'.\\logs\\region_{elapsed_count}.png')
-        r, g, b = t.getpixel((615, 15))
+        t.save(f'.\\logs\\region_{elapsed_count % 10}.png')
+        r, g, b = t.getpixel((580, 15))
     print(f"Region identification failed: ({r}, {g}, {b})")
 
 
 def identify_vision(character, t, el_vis, even_faster, elapsed_count):
-    r, g, b = t.getpixel((725, 15))
-    for x in range(5):
+    r, g, b = t.getpixel((692, 15))
+    for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character is not {character.vision}!")
@@ -277,17 +277,17 @@ def identify_vision(character, t, el_vis, even_faster, elapsed_count):
                 print(f"The character is {character.vision}!")
             return True, [character.vision.lower()]
         if not even_faster:
-            print("Too fast to identify vision, waiting 0.025 seconds to try again")
-        sleep(0.025)
+            print("Too fast to identify vision, waiting 0.005 seconds to try again")
+        sleep(0.005)
         t = screenshot(location)
-        t.save(f'.\\logs\\vision_{elapsed_count}.png')
-        r, g, b = t.getpixel((725, 15))
+        t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
+        r, g, b = t.getpixel((692, 15))
     print(f"Vision identification failed: ({r}, {g}, {b})")
 
 
 def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
-    r, g, b = t.getpixel((835, 15))
-    for x in range(5):
+    r, g, b = t.getpixel((800, 15))
+    for x in range(50):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character does not use a {character.weapon}!")
@@ -297,11 +297,11 @@ def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
                 print(f"The character uses a {character.weapon}!")
             return True, [character.weapon.lower()]
         if not even_faster:
-            print("Too fast to identify weapon, waiting 0.025 seconds to try again")
-        sleep(0.025)
+            print("Too fast to identify weapon, waiting 0.005 seconds to try again")
+        sleep(0.005)
         t = screenshot(location)
-        t.save(f'.\\logs\\vision_{elapsed_count}.png')
-        r, g, b = t.getpixel((835, 15))
+        t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
+        r, g, b = t.getpixel((800, 15))
     print(f"Weapon identification failed: ({r}, {g}, {b})")
 
 
