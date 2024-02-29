@@ -251,11 +251,13 @@ def identify_region(character, t, el_reg, even_faster, elapsed_count):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character is not from {character.region}!")
-            return False, [reg for reg in el_reg if reg != character.region.lower()]
+            return False, [reg for reg in el_reg if reg != character.region.lower()], False
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
                 print(f"The character is from {character.region}!")
-            return True, [character.region.lower()]
+            return True, [character.region.lower()], False
+        elif (r, g, b) == (9, 52, 76):
+            return True, True, True
         if not even_faster:
             print("Too fast to identify region, waiting 0.005 seconds to try again")
         sleep(0.005)
@@ -271,11 +273,13 @@ def identify_vision(character, t, el_vis, even_faster, elapsed_count):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character is not {character.vision}!")
-            return False, [vis for vis in el_vis if vis != character.vision.lower()]
+            return False, [vis for vis in el_vis if vis != character.vision.lower()], False
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
                 print(f"The character is {character.vision}!")
-            return True, [character.vision.lower()]
+            return True, [character.vision.lower()], False
+        elif (r, g, b) == (9, 52, 76):
+            return True, True, True
         if not even_faster:
             print("Too fast to identify vision, waiting 0.005 seconds to try again")
         sleep(0.005)
@@ -291,11 +295,13 @@ def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
         if (r, g, b) == (126, 25, 25):
             if not even_faster:
                 print(f"The character does not use a {character.weapon}!")
-            return False, [w for w in el_weap if w != character.weapon.lower()]
+            return False, [w for w in el_weap if w != character.weapon.lower()], False
         elif (r, g, b) == (29, 145, 40):
             if not even_faster:
                 print(f"The character uses a {character.weapon}!")
-            return True, [character.weapon.lower()]
+            return True, [character.weapon.lower()], False
+        elif (r, g, b) == (9, 52, 76):
+            return True, True, True
         if not even_faster:
             print("Too fast to identify weapon, waiting 0.005 seconds to try again")
         sleep(0.005)

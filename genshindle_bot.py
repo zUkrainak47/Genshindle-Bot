@@ -116,15 +116,20 @@ eligible_versions = set()
 
 def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, character):
     t = screenshot(location)
-
+    error1 = False
+    error2 = False
+    error3 = False
     if not know_region:
-        know_region, el_reg = identify_region(character, t, el_reg, even_faster, elapsed_count)
+        know_region, el_reg, error1 = identify_region(character, t, el_reg, even_faster, elapsed_count)
 
     if not know_vision:
-        know_vision, el_vis = identify_vision(character, t, el_vis, even_faster, elapsed_count)
+        know_vision, el_vis, error2 = identify_vision(character, t, el_vis, even_faster, elapsed_count)
 
     if not know_weapon:
-        know_weapon, el_weap = identify_weapon(character, t, el_weap, even_faster, elapsed_count)
+        know_weapon, el_weap, error3 = identify_weapon(character, t, el_weap, even_faster, elapsed_count)
+
+    if error1 or error2 or error3:
+        return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, True
 
     flag2 = False
     if not know_version:
@@ -164,6 +169,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     # (take them at 100% window size, in fullscreen and the respective display scale)
                     # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
                     break
+            elif (r, g, b) == (9, 52, 76):
+                return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, True
             else:
                 if not even_faster:
                     print("Too fast to identify version, waiting 0.005 seconds to try again")
@@ -177,7 +184,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
     # print(el_reg, el_vis, el_weap, el_ver)
     if not even_faster:
         print("Possible versions:", el_ver)
-    return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version
+    return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, False
 
 
 keyboard.press_and_release('alt+tab')
@@ -221,7 +228,12 @@ while not lost and not quit and not daily:
             break
 
         if flag:
-            writing, most_common_count, char = choose_character(pool)
+            try:
+                writing, most_common_count, char = choose_character(pool)
+            except ValueError:
+                print("We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
+                quit = True
+                break
         else:
             flag = True
             pool = characters.copy()
@@ -244,6 +256,10 @@ while not lost and not quit and not daily:
                 break
         pic = pyautogui.screenshot(region=(550, 350, 2, 2))
         r, g, b = pic.getpixel((1, 1))
+        if writing == "Qiqi" and win(scale125, r, g, b):
+            sleep(0.01)
+            pic = pyautogui.screenshot(region=(550, 350, 2, 2))
+            r, g, b = pic.getpixel((1, 1))
         # print(r, g, b)
         if win(scale125, r, g, b):
             elapsed = write_logs(writing, daily, log, characters, even_faster, start)
@@ -274,19 +290,30 @@ while not lost and not quit and not daily:
 
         # print('Now!')
 
-        eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version = \
+        eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version, that_error = \
             find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision,
                            know_region, know_weapon, know_version, char)
         # time.sleep(0.2)
         # print(eligible_visions)
-        pool = update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing)
-        if not even_faster:
-            print(f"{len(pool)} left in the pool\n")
-        quit = stop(quit)
-        if quit:
-            break
+        if that_error:
+            pic = pyautogui.screenshot(region=(550, 350, 2, 2))
+            r, g, b = pic.getpixel((1, 1))
+            if win(scale125, r, g, b):
+                elapsed = write_logs(writing, daily, log, characters, even_faster, start)
+                elapsed_sum += elapsed
+                elapsed_count += 1
+                break
+        else:
+            pool = update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing)
+            if not even_faster:
+                print(f"{len(pool)} left in the pool\n")
+            quit = stop(quit)
+            if quit:
+                break
     else:
         print(f"We do not win. Pool: {[character.name for character in pool]}")
+        break
+    if quit:
         break
     quit = stop(quit)
     if quit:
