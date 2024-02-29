@@ -2,6 +2,8 @@ import time
 from pathlib import Path
 from res.genshindle_help_file import *
 
+really_start = time.perf_counter()
+
 daily_mode = 0
 even_faster = 0
 
@@ -328,3 +330,7 @@ if not daily_mode and elapsed_count:
           f'Average time: {elapsed_sum / elapsed_count + bool(not even_faster):.6f} seconds')
     print(f'Characters guessed correctly: {elapsed_count}')
     print(f'Total characters guessed: {sum(log.values())}')
+
+really_end = time.perf_counter()
+run_time = time.strftime("%H:%M:%S:%MS", time.gmtime(really_end - really_start))
+print(f'\nThe script was running for {run_time}')
