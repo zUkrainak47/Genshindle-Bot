@@ -164,8 +164,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
                     break
             else:
-                print("Too fast to identify version, waiting 0.1 second to try again")
-                sleep(0.1)
+                print("Too fast to identify version, waiting 0.02 seconds to try again")
+                sleep(0.02)
                 t = screenshot(location)
                 t.save(r'.\logs\version.png')
                 r, g, b = t.getpixel((950, 15))
@@ -230,7 +230,7 @@ while not lost and not quit and not daily:
                 "Qiqi", (20, 15, 17, 21), Character("Qiqi", "liyue", "Cryo", "Sword", 1.0)
         click(1000, click_y)
         click(1000, click_y)
-        time.sleep(0.1)
+        time.sleep(0.02)
 
         keyboard.write(writing)
         keyboard.press_and_release('enter')
@@ -273,7 +273,7 @@ while not lost and not quit and not daily:
         eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision, know_region, know_weapon, know_version = \
             find_character(eligible_regions, eligible_visions, eligible_weapons, eligible_versions, know_vision,
                            know_region, know_weapon, know_version, char)
-        time.sleep(0.2)
+        # time.sleep(0.2)
         # print(eligible_visions)
         pool = update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing)
         if not even_faster:

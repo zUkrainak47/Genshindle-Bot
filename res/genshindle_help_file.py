@@ -256,8 +256,8 @@ def identify_region(character, t, el_reg, even_faster):
             if not even_faster:
                 print(f"The character is from {character.region}!")
             return True, [character.region.lower()]
-        print("Too fast to identify region, waiting 0.1 second to try again")
-        sleep(0.1)
+        print("Too fast to identify region, waiting 0.02 seconds to try again")
+        sleep(0.02)
         t = screenshot(location)
         t.save(r'.\logs\region.png')
         r, g, b = t.getpixel((615, 15))
@@ -275,8 +275,8 @@ def identify_vision(character, t, el_vis, even_faster):
             if not even_faster:
                 print(f"The character is {character.vision}!")
             return True, [character.vision.lower()]
-        print("Too fast to identify vision, waiting 0.1 second to try again")
-        sleep(0.1)
+        print("Too fast to identify vision, waiting 0.02 seconds to try again")
+        sleep(0.02)
         t = screenshot(location)
         t.save(r'.\logs\vision.png')
         r, g, b = t.getpixel((725, 15))
@@ -294,8 +294,8 @@ def identify_weapon(character, t, el_weap, even_faster):
             if not even_faster:
                 print(f"The character uses a {character.weapon}!")
             return True, [character.weapon.lower()]
-        print("Too fast to identify weapon, waiting 0.1 second to try again")
-        sleep(0.1)
+        print("Too fast to identify weapon, waiting 0.02 seconds to try again")
+        sleep(0.02)
         t = screenshot(location)
         t.save(r'.\logs\weapon.png')
         r, g, b = t.getpixel((835, 15))
