@@ -118,18 +118,18 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
     t = screenshot(location)
 
     if not know_region:
-        know_region, el_reg = identify_region(character, t, el_reg, even_faster)
+        know_region, el_reg = identify_region(character, t, el_reg, even_faster, elapsed_count)
 
     if not know_vision:
-        know_vision, el_vis = identify_vision(character, t, el_vis, even_faster)
+        know_vision, el_vis = identify_vision(character, t, el_vis, even_faster, elapsed_count)
 
     if not know_weapon:
-        know_weapon, el_weap = identify_weapon(character, t, el_weap, even_faster)
+        know_weapon, el_weap = identify_weapon(character, t, el_weap, even_faster, elapsed_count)
 
     flag2 = False
     if not know_version:
         r, g, b = t.getpixel((950, 15))  # correct version
-        for x in range(3):
+        for x in range(5):
             if flag2:
                 break
             if (r, g, b) == (29, 145, 40):
@@ -166,10 +166,10 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     break
             else:
                 if not even_faster:
-                    print("Too fast to identify version, waiting 0.04 seconds to try again")
-                sleep(0.04)
+                    print("Too fast to identify version, waiting 0.025 seconds to try again")
+                sleep(0.025)
                 t = screenshot(location)
-                t.save(r'.\logs\version.png')
+                t.save(f'.\\logs\\version_{elapsed_count}.png')
                 r, g, b = t.getpixel((950, 15))
         else:
             print(f"Version identification failed: ({r}, {g}, {b})")
