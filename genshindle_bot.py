@@ -264,9 +264,7 @@ while not lost and not quit and not daily:
             r, g, b = pic.getpixel((1, 1))
         # print(r, g, b)
         if win(scale125, r, g, b):
-            elapsed = write_logs(writing, daily, log, characters, even_faster, start)
-            elapsed_sum += elapsed
-            elapsed_count += 1
+            write_logs(writing, daily, log, characters, even_faster)
             break
         elif r >= 50:
             print(f"We lose. Pool: {[character.name for character in pool]}")
@@ -301,9 +299,7 @@ while not lost and not quit and not daily:
             pic = pyautogui.screenshot(region=(550, 350, 2, 2))
             r, g, b = pic.getpixel((1, 1))
             if win(scale125, r, g, b):
-                elapsed = write_logs(writing, daily, log, characters, even_faster, start)
-                elapsed_sum += elapsed
-                elapsed_count += 1
+                write_logs(writing, daily, log, characters, even_faster)
                 break
         else:
             pool = update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing)
@@ -315,22 +311,34 @@ while not lost and not quit and not daily:
     else:
         print(f"We do not win. Pool: {[character.name for character in pool]}")
         break
-    if quit:
-        break
-    quit = stop(quit)
-    if quit:
-        break
+
     if not even_faster:
         sleep(1)
+
+    end = time.perf_counter()
+    elapsed = end - start
+    print(f'Time taken: {elapsed:.3f} seconds')
+    if not daily:
+        print("\n-------------------------------\n")
+    if not quit:
+        elapsed_sum += elapsed
+        elapsed_count += 1
+
+    if quit:
+        break
     quit = stop(quit)
     if quit:
         break
+    quit = stop(quit)
+    if quit:
+        break
+
 if not daily_mode and elapsed_count:
-    print(f'\n--------------------------\n\n'
-          f'Average time: {elapsed_sum / elapsed_count + bool(not even_faster):.6f} seconds')
+    print(f'Average time per correct guess: {elapsed_sum / elapsed_count + bool(not even_faster):.3f} seconds')
     print(f'Characters guessed correctly: {elapsed_count}')
     print(f'Total characters guessed: {sum(log.values())}')
 
 really_end = time.perf_counter()
-run_time = time.strftime("%H:%M:%S:%MS", time.gmtime(really_end - really_start))
-print(f'\nThe script was running for {run_time}')
+run_time = really_end - really_start
+to_hours = time.strftime("%T", time.gmtime(run_time))
+print(f'\nThe script was running for {to_hours}:{int(1000*(run_time % 1))} ({run_time:.3f} seconds)')

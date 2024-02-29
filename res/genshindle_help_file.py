@@ -193,9 +193,8 @@ def win(scale125, r, g, b):
     return False
 
 
-def write_logs(writing, daily, log, characters, even_faster, start):
+def write_logs(writing, daily, log, characters, even_faster):
     print(f"We win - {writing.upper()}")
-    end = time.perf_counter()
     # time.sleep(1)
     if not daily:
         if writing in log:
@@ -216,11 +215,6 @@ def write_logs(writing, daily, log, characters, even_faster, start):
                 print(f"You discovered {writing}!{progress}")
         with open(r'.\logs\log.txt', 'w') as file:
             file.write(json.dumps(log))
-    elapsed = end - start
-    print(f'Time taken: {elapsed + bool(not even_faster):.6f} seconds')
-    if not daily:
-        print("\n--------------------------\n")
-    return elapsed
 
 
 def check_for_125_scale(r, g, b, location, arrows_wrio, arrow_folder, arrow_location, click_y):
