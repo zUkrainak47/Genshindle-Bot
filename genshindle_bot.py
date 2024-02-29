@@ -164,8 +164,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
                     break
             else:
-                print("Too fast to identify version, waiting 0.02 seconds to try again")
-                sleep(0.02)
+                print("Too fast to identify version, waiting 0.04 seconds to try again")
+                sleep(0.04)
                 t = screenshot(location)
                 t.save(r'.\logs\version.png')
                 r, g, b = t.getpixel((950, 15))
