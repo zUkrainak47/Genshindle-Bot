@@ -128,7 +128,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
 
     flag2 = False
     if not know_version:
-        r, g, b = t.getpixel((915, 15))  # correct version
+        r, g, b = t.getpixel((915, 105))  # correct version
         for x in range(50):
             if flag2:
                 break
@@ -170,7 +170,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 sleep(0.005)
                 t = screenshot(location)
                 t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
-                r, g, b = t.getpixel((915, 15))
+                r, g, b = t.getpixel((915, 105))
         else:
             print(f"Version identification failed: ({r}, {g}, {b})")
 
@@ -237,7 +237,7 @@ while not lost and not quit and not daily:
 
         keyboard.write(writing)
         keyboard.press_and_release('enter')
-        time.sleep(0.04)
+        time.sleep(0.045)
         if daily:
             quit = stop(quit)
             if quit:
