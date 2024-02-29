@@ -19,8 +19,8 @@ versions = {1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
 arrow_folder = 'arrows 100% scale'
 arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again",
           "2 up arrow_because_daily_is_dumb", "1 down arrow_because_daily_is_dumb"]
-arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "2 up arrow", "2 down arrow",
-               "1 up arrow", "1 down arrow", "1 down arrow_again"]
+arrows_wrio = ["2 down arrow_for_wriothesley", "2 down arrow_for_wrio_again", "1 down arrow", "2 up arrow",
+               "2 down arrow", "1 up arrow", "1 down arrow_again"]
 arrow_map = {"2": " way", "1": "", "up": "later", "down": "earlier"}
 location = (472, 516, 976, 116)
 arrow_location = (472, 468, 976, 170)
@@ -256,7 +256,8 @@ def identify_region(character, t, el_reg, even_faster):
             if not even_faster:
                 print(f"The character is from {character.region}!")
             return True, [character.region.lower()]
-        print("Too fast to identify region, waiting 0.04 seconds to try again")
+        if not even_faster:
+            print("Too fast to identify region, waiting 0.04 seconds to try again")
         sleep(0.04)
         t = screenshot(location)
         t.save(r'.\logs\region.png')
@@ -275,7 +276,8 @@ def identify_vision(character, t, el_vis, even_faster):
             if not even_faster:
                 print(f"The character is {character.vision}!")
             return True, [character.vision.lower()]
-        print("Too fast to identify vision, waiting 0.04 seconds to try again")
+        if not even_faster:
+            print("Too fast to identify vision, waiting 0.04 seconds to try again")
         sleep(0.04)
         t = screenshot(location)
         t.save(r'.\logs\vision.png')
@@ -294,7 +296,8 @@ def identify_weapon(character, t, el_weap, even_faster):
             if not even_faster:
                 print(f"The character uses a {character.weapon}!")
             return True, [character.weapon.lower()]
-        print("Too fast to identify weapon, waiting 0.04 seconds to try again")
+        if not even_faster:
+            print("Too fast to identify weapon, waiting 0.04 seconds to try again")
         sleep(0.04)
         t = screenshot(location)
         t.save(r'.\logs\weapon.png')

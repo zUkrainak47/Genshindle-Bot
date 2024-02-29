@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 from res.genshindle_help_file import *
 
@@ -164,7 +165,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
                     break
             else:
-                print("Too fast to identify version, waiting 0.04 seconds to try again")
+                if not even_faster:
+                    print("Too fast to identify version, waiting 0.04 seconds to try again")
                 sleep(0.04)
                 t = screenshot(location)
                 t.save(r'.\logs\version.png')
@@ -234,7 +236,7 @@ while not lost and not quit and not daily:
 
         keyboard.write(writing)
         keyboard.press_and_release('enter')
-        time.sleep(0.2)
+        time.sleep(0.07)
         if daily:
             quit = stop(quit)
             if quit:
@@ -254,6 +256,7 @@ while not lost and not quit and not daily:
         else:
             print(f"Guessing {writing}...", end='')
             print() if even_faster else print(f" {most_common_count}")
+        time.sleep(0.1)
         quit = stop(quit)
         if quit:
             break
