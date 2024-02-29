@@ -142,10 +142,15 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 el_ver = {character.version}
                 know_version = True
                 break
+            elif (r, g, b) == (9, 52, 76):
+                return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, True
             elif (r, g, b) == (126, 25, 25):
                 if not even_faster:
                     log_incorrect_version(character, location, elapsed_count)
-                el_ver.remove(character.version)
+                try:
+                    el_ver.remove(character.version)
+                except KeyError:
+                    pass
                 if character.name == "Wriothesley":
                     arrows_to_go_through = arrows_wrio
                 else:
@@ -163,23 +168,21 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                         if not even_faster:
                             print(f"{fill_spaces(elapsed_count)}Couldn't locate {arrow}...")
                 else:
-                    print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 168 IN THE CODE")
-                    didnt_find_any_arrows(character)
-                    # this should NOT occur and if it does, the program will not work optimally.
-                    # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
-                    # (take them at 100% window size, in fullscreen and the respective display scale)
-                    # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
-                    break
-            elif (r, g, b) == (9, 52, 76):
-                return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, True
+                    if not even_faster:
+                        print(f"{fill_spaces(elapsed_count)}No arrows found. Trying again")
             else:
-                if not even_faster:
-                    print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
-                sleep(0.005)
-                t = screenshot(location)
-                t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
-                r, g, b = t.getpixel((915, 15))
+                print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
+            sleep(0.005)
+            t = screenshot(location)
+            t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
+            r, g, b = t.getpixel((915, 15))
         else:
+            print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 183 IN THE CODE")
+            didnt_find_any_arrows(character)
+            # this should NOT occur and if it does, the program will not work optimally.
+            # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
+            # (take them at 100% window size, in fullscreen and the respective display scale)
+            # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
             print(f"{fill_spaces(elapsed_count)}Version identification failed: ({r}, {g}, {b})")
 
     # print(el_reg, el_vis, el_weap, el_ver)
@@ -202,8 +205,8 @@ sleep(0.1)
 
 pic = pyautogui.screenshot(region=(1100, 1, 2, 2))
 r, g, b = pic.getpixel((1, 1))
-scale125, location, arrows_wrio, arrow_folder, arrow_location, click_y = \
-    check_for_125_scale(r, g, b, location, arrows_wrio, arrow_folder, arrow_location, click_y)
+scale125, location, arrows_wrio, arrows, arrow_folder, arrow_location, click_y = \
+    check_for_125_scale(r, g, b, location, arrows_wrio, arrows, arrow_folder, arrow_location, click_y)
 
 lost = False
 quit = False

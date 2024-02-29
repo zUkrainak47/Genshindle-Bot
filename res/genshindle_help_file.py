@@ -219,17 +219,18 @@ def write_logs(writing, daily, log, characters, even_faster, num):
             file.write(json.dumps(log))
 
 
-def check_for_125_scale(r, g, b, location, arrows_wrio, arrow_folder, arrow_location, click_y):
+def check_for_125_scale(r, g, b, location, arrows_wrio, arrows, arrow_folder, arrow_location, click_y):
     if (r, g, b) == black:
         scale125 = True
         location = (472, 570, 976, 119)
         arrows_wrio = ["2 down arrow", "2 up arrow", "1 up arrow", "1 down arrow", "1 down arrow_again"]
+        arrows = ["2 up arrow", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again"]
         arrow_folder = 'arrows 125% scale'
         arrow_location = (1320, 505, 139, 190)
         click_y = 355
     else:
         scale125 = False
-    return scale125, location, arrows_wrio, arrow_folder, arrow_location, click_y
+    return scale125, location, arrows_wrio, arrows, arrow_folder, arrow_location, click_y
 
 
 def update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing):
