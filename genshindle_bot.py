@@ -327,3 +327,4 @@ if not daily_mode and elapsed_count:
     print(f'\n--------------------------\n\n'
           f'Average time: {elapsed_sum / elapsed_count + bool(not even_faster):.6f} seconds')
     print(f'Characters guessed correctly: {elapsed_count}')
+    print(f'Total characters guessed: {sum(log.values())}')
