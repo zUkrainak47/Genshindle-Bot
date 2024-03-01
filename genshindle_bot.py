@@ -174,7 +174,7 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
             sleep(0.005)
             t = screenshot(location)
-            t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
+            # t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
             r, g, b = t.getpixel((915, 15))
         else:
             print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 183 IN THE CODE")
