@@ -253,6 +253,7 @@ while not lost and not quit and not daily:
 
         keyboard.write(writing)
         keyboard.press_and_release('enter')
+        keyboard.press_and_release('enter')
         time.sleep(0.05)
         # if daily:
         #     quit = stop(quit, elapsed_count)
