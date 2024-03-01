@@ -338,7 +338,7 @@ def log_incorrect_version(character, location, num):
     img.save(r'.\logs\last incorrect version seen.png')
 
 
-def print_mode(daily_mode, even_faster):
+def print_mode(daily_mode, even_faster, log):
     if daily_mode:
         print("\n Solving normal mode", end=" ")
     else:
@@ -347,4 +347,4 @@ def print_mode(daily_mode, even_faster):
         print("at supersonic speed")
     else:
         print("at moderate speed")
-    print("\n (1) -------------------------------\n")
+    print(f"\n (1) ------------------------------- ({sum(log.values())})\n")

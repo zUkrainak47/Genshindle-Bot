@@ -11,11 +11,11 @@ try:
 except FileNotFoundError:
     create_settings()
 
-print_mode(daily_mode, even_faster)
-
 Path(".\\logs").mkdir(parents=True, exist_ok=True)
 
 log = json.loads(read_log())
+
+print_mode(daily_mode, even_faster, log)
 
 
 class Character:
@@ -324,7 +324,7 @@ while not lost and not quit and not daily:
         elapsed_sum += elapsed
         elapsed_count += 1
         if not daily:
-            print(f"\n ({elapsed_count + 1}) -------------------------------\n")
+            print(f"\n ({elapsed_count + 1}) ------------------------------- ({sum(log.values())})\n")
     if quit:
         break
     quit = stop(quit, elapsed_count)
