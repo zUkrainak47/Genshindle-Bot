@@ -246,14 +246,14 @@ while not lost and not quit and not daily:
                 pic = pyautogui.screenshot(region=(550, 350, 2, 2))
                 r, g, b = pic.getpixel((1, 1))
                 if win(scale125, r, g, b):
-                    print(f"{fill_spaces(elapsed_count)}Nevermind we actually win")
+                    print(f"{fill_spaces(elapsed_count)}Never mind we actually win")
                     now = datetime.datetime.now()
                     try:
                         with open(r'.\logs\fail.txt', 'a') as file:
-                            file.write(f'\n{writing}, {now.time()}')
+                            file.write(f'{writing}, {now.time()}\n')
                     except FileNotFoundError:
                         with open(r'.\logs\fail.txt', 'w') as file:
-                            file.write(f'{writing}, {now.time()}')
+                            file.write(f'{writing}, {now.time()}\n')
                     write_logs(writing, daily, log, characters, even_faster, elapsed_count)
                     break
                 else:
@@ -281,7 +281,8 @@ while not lost and not quit and not daily:
         #     quit = stop(quit, elapsed_count)
         #     if quit:
         #         break
-        pic = pyautogui.screenshot(region=(550, 350, 2, 2))
+        pic2 = pyautogui.screenshot(region=(550, 350, 2, 2))
+        pic = pyautogui.screenshot(region=(550, 350, 2, 2))  # yes this is necessary
         r, g, b = pic.getpixel((1, 1))
         if writing == "Qiqi" and win(scale125, r, g, b):
             sleep(0.01)
@@ -321,11 +322,10 @@ while not lost and not quit and not daily:
         # time.sleep(0.2)
         # print(eligible_visions)
         if that_error:
-            t = pyautogui.screenshot()
             # pic = pyautogui.screenshot(region=(550, 350, 2, 2))
             # r, g, b = pic.getpixel((1, 1))
             # if win(scale125, r, g, b):
-            print(" HAPPENED")
+            print(f"{fill_spaces(elapsed_count)}SIKE")
             now = datetime.datetime.now()
             try:
                 with open(r'.\logs\kekwait.txt', 'a') as file:
@@ -333,7 +333,8 @@ while not lost and not quit and not daily:
             except FileNotFoundError:
                 with open(r'.\logs\kekwait.txt', 'w') as file:
                     file.write(f'{writing}, {now.time()}\n')
-            t.save(f'.\\logs\\WHAT_{elapsed_count}.png')
+            pic2.save(f'.\\logs\\WHAT_{elapsed_count}.png')
+            pic.save(f'.\\logs\\WHAT_{elapsed_count}_2.png')
             write_logs(writing, daily, log, characters, even_faster, elapsed_count)
             break
         else:
