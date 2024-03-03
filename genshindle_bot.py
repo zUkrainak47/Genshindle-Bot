@@ -173,14 +173,14 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 else:
                     if not even_faster:
                         print(f"{fill_spaces(elapsed_count)}No arrows found. Trying again")
-                        t.save(f'.\\logs\\version_{elapsed_count % 100}.png')
+                        t.save(f'.\\logs\\version_{elapsed_count + 1}.png')
                     sleep(0.005)
                     t = screenshot(location)
                     r, g, b = t.getpixel((915, 15))
             else:
                 print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
                 sleep(0.005)
-                t.save(f'.\\logs\\version_{(elapsed_count + 1) % 100}.png')
+                t.save(f'.\\logs\\version_{elapsed_count + 1}.png')
                 t = screenshot(location)
                 r, g, b = t.getpixel((915, 15))
         else:
@@ -246,7 +246,7 @@ while not lost and not quit and not daily:
                 pic = pyautogui.screenshot(region=(550, 350, 2, 2))
                 r, g, b = pic.getpixel((1, 1))
                 if win(scale125, r, g, b):
-                    print(f"{fill_spaces(elapsed_count)}Nevermind we actually win - {writing.upper()}")
+                    print(f"{fill_spaces(elapsed_count)}Nevermind we actually win")
                     now = datetime.datetime.now()
                     try:
                         with open(r'.\logs\fail.txt', 'a') as file:
@@ -276,7 +276,7 @@ while not lost and not quit and not daily:
         keyboard.write(writing)
         keyboard.press_and_release('enter')
         keyboard.press_and_release('enter')
-        time.sleep(0.06)
+        time.sleep(0.04)
         # if daily:
         #     quit = stop(quit, elapsed_count)
         #     if quit:
@@ -321,11 +321,21 @@ while not lost and not quit and not daily:
         # time.sleep(0.2)
         # print(eligible_visions)
         if that_error:
-            pic = pyautogui.screenshot(region=(550, 350, 2, 2))
-            r, g, b = pic.getpixel((1, 1))
-            if win(scale125, r, g, b):
-                write_logs(writing, daily, log, characters, even_faster, elapsed_count)
-                break
+            t = pyautogui.screenshot()
+            # pic = pyautogui.screenshot(region=(550, 350, 2, 2))
+            # r, g, b = pic.getpixel((1, 1))
+            # if win(scale125, r, g, b):
+            print(" HAPPENED")
+            now = datetime.datetime.now()
+            try:
+                with open(r'.\logs\kekwait.txt', 'a') as file:
+                    file.write(f'{writing}, {now.time()}\n')
+            except FileNotFoundError:
+                with open(r'.\logs\kekwait.txt', 'w') as file:
+                    file.write(f'{writing}, {now.time()}\n')
+            t.save(f'.\\logs\\WHAT_{elapsed_count}.png')
+            write_logs(writing, daily, log, characters, even_faster, elapsed_count)
+            break
         else:
             pool = update_pool(pool, eligible_regions, eligible_visions, eligible_weapons, eligible_versions, writing)
             if not even_faster:
