@@ -1,5 +1,6 @@
 from pathlib import Path
 from res.genshindle_help_file import *
+import datetime
 
 really_start = time.perf_counter()
 
@@ -240,6 +241,13 @@ while not lost and not quit and not daily:
                 r, g, b = pic.getpixel((1, 1))
                 if win(scale125, r, g, b):
                     print(f"{fill_spaces(elapsed_count)}Nevermind we actually win - {writing.upper()}")
+                    now = datetime.datetime.now()
+                    try:
+                        with open(r'.\logs\fail.txt', 'a') as file:
+                            file.write(f'\n{writing}, {now.time()}')
+                    except FileNotFoundError:
+                        with open(r'.\logs\fail.txt', 'w') as file:
+                            file.write(f'{writing}, {now.time()}')
                     write_logs(writing, daily, log, characters, even_faster, elapsed_count)
                     break
                 else:
