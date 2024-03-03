@@ -259,7 +259,7 @@ def identify_region(character, t, el_reg, even_faster, elapsed_count):
             print(f"{fill_spaces(elapsed_count)}Too fast to identify region, waiting 0.005 seconds to try again")
         sleep(0.005)
         t = screenshot(location)
-        # t.save(f'.\\logs\\region_{elapsed_count % 10}.png')
+        t.save(f'.\\logs\\region_{(elapsed_count + 1) % 100}.png')
         r, g, b = t.getpixel((580, 15))
     print(f"{fill_spaces(elapsed_count)}Region identification failed: ({r}, {g}, {b})")
 
@@ -281,7 +281,7 @@ def identify_vision(character, t, el_vis, even_faster, elapsed_count):
             print(f"{fill_spaces(elapsed_count)}Too fast to identify vision, waiting 0.005 seconds to try again")
         sleep(0.005)
         t = screenshot(location)
-        # t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
+        t.save(f'.\\logs\\vision_{(elapsed_count + 1) % 100}.png')
         r, g, b = t.getpixel((692, 15))
     print(f"{fill_spaces(elapsed_count)}Vision identification failed: ({r}, {g}, {b})")
 
@@ -303,7 +303,7 @@ def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
             print(f"{fill_spaces(elapsed_count)}Too fast to identify weapon, waiting 0.005 seconds to try again")
         sleep(0.005)
         t = screenshot(location)
-        # t.save(f'.\\logs\\vision_{elapsed_count % 10}.png')
+        t.save(f'.\\logs\\vision_{(elapsed_count + 1) % 100}.png')
         r, g, b = t.getpixel((800, 15))
     print(f"{fill_spaces(elapsed_count)}Weapon identification failed: ({r}, {g}, {b})")
 

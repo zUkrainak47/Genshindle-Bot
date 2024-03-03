@@ -156,6 +156,8 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                     arrows_to_go_through = arrows_wrio
                 else:
                     arrows_to_go_through = arrows
+                if character.name == "Qiqi":
+                    sleep(0.05)
                 for arrow in arrows_to_go_through:
                     try:
                         if (pyautogui.locateOnScreen(f".\\res\\{arrow_folder}\\{arrow}.png", region=arrow_location,
@@ -171,14 +173,18 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                 else:
                     if not even_faster:
                         print(f"{fill_spaces(elapsed_count)}No arrows found. Trying again")
+                        t.save(f'.\\logs\\version_{elapsed_count % 100}.png')
+                    sleep(0.005)
+                    t = screenshot(location)
+                    r, g, b = t.getpixel((915, 15))
             else:
                 print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
-            sleep(0.005)
-            t = screenshot(location)
-            # t.save(f'.\\logs\\version_{elapsed_count % 10}.png')
-            r, g, b = t.getpixel((915, 15))
+                sleep(0.005)
+                t.save(f'.\\logs\\version_{(elapsed_count + 1) % 100}.png')
+                t = screenshot(location)
+                r, g, b = t.getpixel((915, 15))
         else:
-            print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 183 IN THE CODE")
+            print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 189 IN THE CODE")
             didnt_find_any_arrows(character)
             # this should NOT occur and if it does, the program will not work optimally.
             # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
@@ -270,7 +276,7 @@ while not lost and not quit and not daily:
         keyboard.write(writing)
         keyboard.press_and_release('enter')
         keyboard.press_and_release('enter')
-        time.sleep(0.053)
+        time.sleep(0.06)
         # if daily:
         #     quit = stop(quit, elapsed_count)
         #     if quit:
