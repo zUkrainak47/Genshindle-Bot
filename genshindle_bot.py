@@ -211,7 +211,7 @@ scale125, location, arrows_wrio, arrows, arrow_folder, arrow_location, click_y =
 lost = False
 quit = False
 daily = False
-
+writing = "ill give this a value just in case"
 elapsed_sum = 0.0
 elapsed_count = 0
 # for x in range(1000):
@@ -222,7 +222,7 @@ while not lost and not quit and not daily:
 
     know_vision, know_region, know_weapon, know_version = False, False, False, False
     flag = False
-    for i in range(5):
+    for i in range(6):
         # quit = stop(quit, {fill_spaces(elapsed_count)})
         # if quit:
         #     break
@@ -235,9 +235,17 @@ while not lost and not quit and not daily:
             try:
                 writing, most_common_count, char = choose_character(pool)
             except ValueError:
-                print(f"{fill_spaces(elapsed_count)}We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
-                quit = True
-                break
+                sleep(1)
+                pic = pyautogui.screenshot(region=(550, 350, 2, 2))
+                r, g, b = pic.getpixel((1, 1))
+                if win(scale125, r, g, b):
+                    print(f"{fill_spaces(elapsed_count)}Nevermind we actually win - {writing.upper()}")
+                    write_logs(writing, daily, log, characters, even_faster, elapsed_count)
+                    break
+                else:
+                    print(f"{fill_spaces(elapsed_count)}We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
+                    quit = True
+                    break
         else:
             flag = True
             pool = characters.copy()
@@ -254,7 +262,7 @@ while not lost and not quit and not daily:
         keyboard.write(writing)
         keyboard.press_and_release('enter')
         keyboard.press_and_release('enter')
-        time.sleep(0.05)
+        time.sleep(0.053)
         # if daily:
         #     quit = stop(quit, elapsed_count)
         #     if quit:
@@ -325,7 +333,7 @@ while not lost and not quit and not daily:
         elapsed_sum += elapsed
         elapsed_count += 1
         if not daily:
-            print(f"\n ({elapsed_count + 1}) ------------------------------- ({sum(log.values())})\n")
+            print(f"\n ({elapsed_count + 1}) --------------------------- ({sum(log.values())})\n")
     if quit:
         break
     quit = stop(quit, elapsed_count)
@@ -333,7 +341,7 @@ while not lost and not quit and not daily:
         break
 
 if not daily_mode and elapsed_count:
-    print(f'\n  ---------------------------------------------------\n\n'
+    print(f'\n  -----------------------------------------------\n\n'
           f'   Average time per correct guess: {elapsed_sum / elapsed_count:.3f} seconds')
     print(f'   Characters guessed correctly: {elapsed_count}')
     print(f'   Total characters found: {sum(log.values())}')

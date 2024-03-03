@@ -347,4 +347,4 @@ def print_mode(daily_mode, even_faster, log):
         print("at supersonic speed")
     else:
         print("at moderate speed")
-    print(f"\n (1) ------------------------------- ({sum(log.values())})\n")
+    print(f"\n (1) --------------------------- ({sum(log.values())})\n")
