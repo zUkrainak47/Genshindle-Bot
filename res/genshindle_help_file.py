@@ -326,10 +326,10 @@ def identify_arrow_type(character, arrow, even_faster, el_ver, arrow_location, n
 def didnt_find_any_arrows(character):
     try:
         with open(r'.\logs\arrow.txt', 'a') as file:
-            file.write(f'\n{character.name}')
+            file.write(f'{character.name}\n')
     except FileNotFoundError:
         with open(r'.\logs\arrow.txt', 'w') as file:
-            file.write(f'{character.name}')
+            file.write(f'{character.name}\n')
 
 
 def log_incorrect_version(character, location, num):
