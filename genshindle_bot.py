@@ -285,7 +285,7 @@ while not lost and not quit and not daily:
         pic = pyautogui.screenshot(region=(550, 350, 2, 2))  # yes this is necessary
         r, g, b = pic.getpixel((1, 1))
         if writing == "Qiqi" and win(scale125, r, g, b):
-            sleep(0.01)
+            sleep(0.033)
             pic = pyautogui.screenshot(region=(550, 350, 2, 2))
             r, g, b = pic.getpixel((1, 1))
         # print(r, g, b)
