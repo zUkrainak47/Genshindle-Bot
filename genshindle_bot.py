@@ -351,13 +351,13 @@ while not lost and not quit and not daily:
         print(f"{fill_spaces(elapsed_count)}We do not win. Pool: {[character.name for character in pool]}")
         break
 
-    total = sum(log.values())
     if not even_faster:
         sleep(1)
     end = time.perf_counter()
     elapsed = end - start
     print(f'{fill_spaces(elapsed_count)}Time taken: {elapsed:.3f} seconds')
     if not quit:
+        total = sum(log.values())
         elapsed_sum += elapsed
         elapsed_count += 1
         if not daily:
@@ -369,6 +369,7 @@ while not lost and not quit and not daily:
         break
 
 if not daily_mode and elapsed_count:
+    total = sum(log.values())
     print(f'\n  -----------------------------------------------\n\n'
           f'   Average time per correct guess: {elapsed_sum / elapsed_count:.3f} seconds')
     print(f'   Characters guessed correctly: {elapsed_count}')
