@@ -201,6 +201,9 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
 keyboard.press_and_release('alt+tab')
 sleep(0.5)
 keyboard.press_and_release('ctrl+0')
+sleep(0.1)
+keyboard.press_and_release('up_arrow')
+keyboard.press_and_release('up_arrow')
 keyboard.press_and_release('up_arrow')
 
 sleep(0.1)
@@ -348,9 +351,9 @@ while not lost and not quit and not daily:
         print(f"{fill_spaces(elapsed_count)}We do not win. Pool: {[character.name for character in pool]}")
         break
 
+    total = sum(log.values())
     if not even_faster:
         sleep(1)
-
     end = time.perf_counter()
     elapsed = end - start
     print(f'{fill_spaces(elapsed_count)}Time taken: {elapsed:.3f} seconds')
@@ -358,7 +361,7 @@ while not lost and not quit and not daily:
         elapsed_sum += elapsed
         elapsed_count += 1
         if not daily:
-            print(f"\n ({elapsed_count + 1}) --------------------------- ({sum(log.values())})\n")
+            print(f"\n ({elapsed_count + 1}) --------------------------- ({total})\n")
     if quit:
         break
     quit = stop(quit, elapsed_count)
@@ -369,8 +372,8 @@ if not daily_mode and elapsed_count:
     print(f'\n  -----------------------------------------------\n\n'
           f'   Average time per correct guess: {elapsed_sum / elapsed_count:.3f} seconds')
     print(f'   Characters guessed correctly: {elapsed_count}')
-    print(f'   Total characters found: {sum(log.values())}')
-
+    print(f'   Total characters found: {total}')
+        
 really_end = time.perf_counter()
 run_time = really_end - really_start
 to_hours = time.strftime("%T", time.gmtime(run_time))
