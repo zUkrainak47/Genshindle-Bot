@@ -336,8 +336,8 @@ while not lost and not quit and not daily:
             except FileNotFoundError:
                 with open(r'.\logs\kekwait.txt', 'w') as file:
                     file.write(f'{writing}, {now.time()}\n')
-            pic2.save(f'.\\logs\\WHAT_{elapsed_count}.png')
-            pic.save(f'.\\logs\\WHAT_{elapsed_count}_2.png')
+            # pic2.save(f'.\\logs\\WHAT_{elapsed_count + 1}.png')
+            # pic.save(f'.\\logs\\WHAT_{elapsed_count + 1}_2.png')
             write_logs(writing, daily, log, characters, even_faster, elapsed_count)
             break
         else:
@@ -380,3 +380,5 @@ run_time = really_end - really_start
 to_hours = time.strftime("%T", time.gmtime(run_time))
 decimals = f'{(run_time % 1):.3f}'
 print(f'\n   The script was running for {to_hours}:{str(decimals)[2:]} ({run_time:.3f} seconds)')
+now = datetime.datetime.now()
+print(f'   It stopped at {str(now.time())[:-7]}\n')
