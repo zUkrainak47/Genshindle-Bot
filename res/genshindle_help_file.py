@@ -27,8 +27,8 @@ arrow_location = (1320, 468, 139, 170)
 click_y = 334
 
 
-def fill_spaces(num):
-    return (5 + len(str(num + 1))) * " "
+def fill_spaces(num, daily=False):
+    return (5 + len(str(num + 1))) * " " if not daily else "    "
 
 
 # ChatGPT code:
@@ -146,13 +146,13 @@ def screenshot(loc):
 
 
 def waiting():
-    print(3)
+    print(f"{fill_spaces(0, True)}3,")
     sleep(1)
-    print(2)
+    print(f"{fill_spaces(0, True)}2,")
     sleep(1)
-    print(1)
+    print(f"{fill_spaces(0, True)}1...")
     sleep(1)
-    print("Ok, looking now")
+    print(f"{fill_spaces(0, True)}Ok, looking now\n")
     return
 
 
@@ -196,7 +196,7 @@ def win(scale125, r, g, b):
 
 
 def write_logs(writing, daily, log, characters, even_faster, num):
-    print(f"{fill_spaces(num)}We win - {writing.upper()}")
+    print(f"{fill_spaces(num, daily)}We win - {writing.upper()}")
     # time.sleep(1)
     if not daily:
         if writing in log:
@@ -340,11 +340,13 @@ def log_incorrect_version(character, location, num):
 
 def print_mode(daily_mode, even_faster, log):
     if daily_mode:
-        print("\n Solving normal mode", end=" ")
+        print("\n  Solving normal mode", end=" ")
     else:
         print("\n Solving endless mode", end=" ")
     if even_faster:
         print("at supersonic speed")
     else:
         print("at moderate speed")
-    print(f"\n (1) --------------------------- ({sum(log.values())})\n")
+    if not daily_mode:
+        print(f"\n (1) --------------------------- ({sum(log.values())})")
+    print()

@@ -108,7 +108,7 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Xianyun", "liyue", "Anemo", "Catalyst", 4.4),
               Character("Chiori", "inazuma", "Geo", "Sword", 4.5)}
 
-# Character("Arle", "fontaine", "Pyro", "Polearm", 4.6)
+# Character("Arlecchino", "fontaine", "Pyro", "Polearm", 4.6)
 
 pool = set()
 eligible_regions = []
@@ -170,32 +170,32 @@ def find_character(el_reg, el_vis, el_weap, el_ver, know_vision, know_region, kn
                             break
                     except ImageNotFoundException:
                         if not even_faster:
-                            print(f"{fill_spaces(elapsed_count)}Couldn't locate {arrow}...")
+                            print(f"{fill_spaces(elapsed_count, daily)}Couldn't locate {arrow}...")
                 else:
                     if not even_faster:
-                        print(f"{fill_spaces(elapsed_count)}No arrows found. Trying again")
+                        print(f"{fill_spaces(elapsed_count, daily)}No arrows found. Trying again")
                         t.save(f'.\\logs\\version_{elapsed_count + 1}.png')
                     sleep(0.005)
                     t = screenshot(location)
                     r, g, b = t.getpixel((915, 15))
             else:
-                print(f"{fill_spaces(elapsed_count)}Too fast to identify version, waiting 0.005 seconds to try again")
+                print(f"{fill_spaces(elapsed_count, daily)}Too fast to identify version, waiting 0.005 seconds to try again")
                 sleep(0.005)
                 t.save(f'.\\logs\\version_{elapsed_count + 1}.png')
                 t = screenshot(location)
                 r, g, b = t.getpixel((915, 15))
         else:
-            print(f"{fill_spaces(elapsed_count)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 189 IN THE CODE")
+            print(f"{fill_spaces(elapsed_count, daily)}THIS IS NOT GOOD. COULDN'T FIND ANY ARROWS. GO TO LINE 189 IN THE CODE")
             didnt_find_any_arrows(character)
             # this should NOT occur and if it does, the program will not work optimally.
             # if you notice this, try replacing the arrows I provided with screenshots of your own arrows
             # (take them at 100% window size, in fullscreen and the respective display scale)
             # if that doesn't help recognize the arrows, I haven't found a fix yet unfortunately
-            print(f"{fill_spaces(elapsed_count)}Version identification failed: ({r}, {g}, {b})")
+            print(f"{fill_spaces(elapsed_count, daily)}Version identification failed: ({r}, {g}, {b})")
 
     # print(el_reg, el_vis, el_weap, el_ver)
     if not even_faster:
-        print(f"{fill_spaces(elapsed_count)}Possible versions: {el_ver}")
+        print(f"{fill_spaces(elapsed_count, daily)}Possible versions: {el_ver}")
     return el_reg, el_vis, el_weap, el_ver, know_vision, know_region, know_weapon, know_version, False
 
 
@@ -250,7 +250,7 @@ while not lost and not quit and not daily:
                 pic = pyautogui.screenshot(region=(550, 350, 2, 2))
                 r, g, b = pic.getpixel((1, 1))
                 if win(scale125, r, g, b):
-                    print(f"{fill_spaces(elapsed_count)}Never mind we actually win")
+                    print(f"{fill_spaces(elapsed_count, daily)}Never mind we actually win")
                     now = datetime.datetime.now()
                     try:
                         with open(r'.\logs\fail.txt', 'a') as file:
@@ -261,7 +261,7 @@ while not lost and not quit and not daily:
                     write_logs(writing, daily, log, characters, even_faster, elapsed_count)
                     break
                 else:
-                    print(f"{fill_spaces(elapsed_count)}We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
+                    print(f"{fill_spaces(elapsed_count, daily)}We fail", eligible_regions, eligible_visions, eligible_weapons, eligible_versions)
                     quit = True
                     break
         else:
@@ -297,11 +297,11 @@ while not lost and not quit and not daily:
             write_logs(writing, daily, log, characters, even_faster, elapsed_count)
             break
         elif r >= 50:
-            print(f"{fill_spaces(elapsed_count)}We lose. Pool: {[character.name for character in pool]}")
+            print(f"{fill_spaces(elapsed_count, daily)}We lose. Pool: {[character.name for character in pool]}")
             lost = True
             break
         else:
-            print(f"{fill_spaces(elapsed_count)}Guessing {writing}...", end='')
+            print(f"{fill_spaces(elapsed_count, daily)}Guessing {writing}...", end='')
             print() if even_faster else print(f" {most_common_count}")
         time.sleep(0.1)
         quit = stop(quit, elapsed_count)
@@ -314,7 +314,7 @@ while not lost and not quit and not daily:
             break
 
         if daily:
-            print(f"{fill_spaces(elapsed_count)}Waiting for the cards to flip...")
+            print(f"{fill_spaces(elapsed_count, True)}Waiting for the cards to flip...")
             time.sleep(0.4)
             waiting()
 
@@ -356,7 +356,7 @@ while not lost and not quit and not daily:
         sleep(1)
     end = time.perf_counter()
     elapsed = end - start
-    print(f'{fill_spaces(elapsed_count)}Time taken: {elapsed:.3f} seconds')
+    print(f'{fill_spaces(elapsed_count, daily)}Time taken: {elapsed:.3f} seconds')
     if not quit:
         total = sum(log.values())
         elapsed_sum += elapsed
