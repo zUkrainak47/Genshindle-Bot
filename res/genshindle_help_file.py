@@ -253,7 +253,7 @@ def identify_region(character, t, el_reg, even_faster, elapsed_count):
             if not even_faster:
                 print(f"{fill_spaces(elapsed_count)}The character is from {character.region}!")
             return True, [character.region.lower()], False
-        elif (r, g, b) == (9, 52, 76):
+        elif (r, g, b) in ((9, 52, 76), (12, 48, 76)):
             return True, True, True
         if not even_faster:
             print(f"{fill_spaces(elapsed_count)}Too fast to identify region, waiting 0.005 seconds to try again")
@@ -275,7 +275,7 @@ def identify_vision(character, t, el_vis, even_faster, elapsed_count):
             if not even_faster:
                 print(f"{fill_spaces(elapsed_count)}The character is {character.vision}!")
             return True, [character.vision.lower()], False
-        elif (r, g, b) == (9, 52, 76):
+        elif (r, g, b) in ((9, 52, 76), (12, 48, 76)):
             return True, True, True
         if not even_faster:
             print(f"{fill_spaces(elapsed_count)}Too fast to identify vision, waiting 0.005 seconds to try again")
@@ -297,7 +297,7 @@ def identify_weapon(character, t, el_weap, even_faster, elapsed_count):
             if not even_faster:
                 print(f"{fill_spaces(elapsed_count)}The character uses a {character.weapon}!")
             return True, [character.weapon.lower()], False
-        elif (r, g, b) == (9, 52, 76):
+        elif (r, g, b) in ((9, 52, 76), (12, 48, 76)):
             return True, True, True
         if not even_faster:
             print(f"{fill_spaces(elapsed_count)}Too fast to identify weapon, waiting 0.005 seconds to try again")
