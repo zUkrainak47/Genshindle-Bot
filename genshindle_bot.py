@@ -106,9 +106,12 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Navia", "fontaine", "Geo", "Claymore", 4.3),
               Character("Gaming", "liyue", "Pyro", "Claymore", 4.4),
               Character("Xianyun", "liyue", "Anemo", "Catalyst", 4.4),
-              Character("Chiori", "inazuma", "Geo", "Sword", 4.5)}
+              Character("Chiori", "inazuma", "Geo", "Sword", 4.5),
+              Character("Arlecchino", "snezhnaya", "Pyro", "Polearm", 4.6)}
 
-# Character("Arlecchino", "fontaine", "Pyro", "Polearm", 4.6)
+# Character("Clorinde", "fontaine", "Electro", "Sword", 4.7)
+# Character("Sigewinne", "fontaine", "Hydro", "", 4.7)
+# Character("Sethos", "", "Electro", "", 4.7)
 
 pool = set()
 eligible_regions = []
