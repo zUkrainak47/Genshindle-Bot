@@ -6,7 +6,7 @@ This program automates the genshindle endless mode found at https://genshindle.c
 https://youtu.be/s3UsQzUyHn8
 
 ### Setup
-Download ZIP and extract 👍 \
+Clone this repository or download ZIP and extract \
 You can toggle between Endless Mode and Normal (Daily) Mode in `settings.txt`. \
 You can also toggle extra fast speed there.
 
