@@ -107,11 +107,12 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Gaming", "liyue", "Pyro", "Claymore", 4.4),
               Character("Xianyun", "liyue", "Anemo", "Catalyst", 4.4),
               Character("Chiori", "inazuma", "Geo", "Sword", 4.5),
-              Character("Arlecchino", "snezhnaya", "Pyro", "Polearm", 4.6)}
+              Character("Arlecchino", "snezhnaya", "Pyro", "Polearm", 4.6),
+              # Character("Sethos", "sumeru", "Electro", "Bow", 4.7),
+              # Character("Clorinde", "fontaine", "Electro", "Sword", 4.7),
+              # Character("Sigewinne", "fontaine", "Hydro", "Bow", 4.7),
+              }
 
-# Character("Clorinde", "fontaine", "Electro", "Sword", 4.7)
-# Character("Sigewinne", "fontaine", "Hydro", "", 4.7)
-# Character("Sethos", "", "Electro", "", 4.7)
 
 pool = set()
 eligible_regions = []
@@ -246,6 +247,9 @@ while not lost and not quit and not daily:
             break
 
         if flag:
+            if len(pool) != 1 and i >= 4:
+                print('Something went VERY wrong, aborting. You (should) have one guess left.')
+                break
             try:
                 writing, most_common_count, char = choose_character(pool)
             except ValueError:
