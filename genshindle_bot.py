@@ -110,7 +110,7 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Arlecchino", "snezhnaya", "Pyro", "Polearm", 4.6),
               Character("Sethos", "sumeru", "Electro", "Bow", 4.7),
               Character("Clorinde", "fontaine", "Electro", "Sword", 4.7),
-              # Character("Sigewinne", "fontaine", "Hydro", "Bow", 4.7),
+              Character("Sigewinne", "fontaine", "Hydro", "Bow", 4.7),
               # Character("Emilie, "fontaine", "Dendro", "Polearm", 4.8),
               }
 
