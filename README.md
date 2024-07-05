@@ -1,6 +1,6 @@
 # Genshindle Bot
 ### About
-This program automates the genshindle endless mode found at https://genshindle.com/endless/
+This program automates [genshindle](https://genshindle.com/endless/) (both endless and daily modes)
 
 ### Tutorial & Showcase
 https://youtu.be/s3UsQzUyHn8
