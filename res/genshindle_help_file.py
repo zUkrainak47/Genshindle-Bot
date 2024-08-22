@@ -10,12 +10,12 @@ import json
 from collections import Counter
 
 visions = ["pyro", "hydro", "cryo", "anemo", "geo", "electro", "dendro"]
-regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"]
+regions = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "snezhnaya", "none"] #"natlan"
 weapons = ["sword", "claymore", "polearm", "catalyst", "bow"]
 versions = {1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,
             2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8,
             3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7,
-            4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7}
+            4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8}
 arrow_folder = 'arrows 100% scale'
 arrows = ["2 up arrow", "2 up arrow_because_daily_is_dumb", "1 up arrow", "1 down arrow", "2 down arrow", "1 down arrow_again",
           "1 down arrow_because_daily_is_dumb"]
@@ -199,18 +199,21 @@ def write_logs(writing, daily, log, characters, even_faster, num):
     print(f"{fill_spaces(num, daily)}We win - {writing.upper()}")
     # time.sleep(1)
     if not daily:
+        # allows using an "other" key for adjustment counter in case of lost data
+        # without changing the amount of characters discovered
+        num_unlocked = len(log) - ("other" in log)
         if writing in log:
             log[writing] += 1
-            if len(log) != len(characters):
-                progress = f" ({len(log)}/{len(characters)} characters found)"
+            if num_unlocked != len(characters):
+                progress = f" ({num_unlocked}/{len(characters)} characters found)"
             else:
                 progress = ' You found every character!'
             if not even_faster:
                 print(f"{fill_spaces(num)}You found {writing} {log[writing]} times!{progress} {sum(log.values())} characters found in total.")
         else:
             log[writing] = 1
-            if len(log) != len(characters):
-                progress = f" ({len(log)}/{len(characters)} characters found)"
+            if num_unlocked != len(characters):
+                progress = f" ({num_unlocked}/{len(characters)} characters found)"
             else:
                 progress = ' You found every character!'
             if not even_faster:
