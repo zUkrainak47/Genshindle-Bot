@@ -114,7 +114,7 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Emilie", "fontaine", "Dendro", "Polearm", 4.8),
               Character("Mualani", "natlan", "Hydro", "Catalyst", 5.0),
               Character("Kinich", "natlan", "Dendro", "Claymore", 5.0),
-              # Character("Kachina", "natlan", "Geo", "?", 5.0),
+              Character("Kachina", "natlan", "Geo", "Polearm", 5.0),
               }
 
 
