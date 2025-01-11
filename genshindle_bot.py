@@ -116,6 +116,11 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Kinich", "natlan", "Dendro", "Claymore", 5.0),
               Character("Kachina", "natlan", "Geo", "Polearm", 5.0),
               Character("Xilonen", "natlan", "Geo", "Sword", 5.1),
+              Character("Chasca", "Natlan", "Anemo", "Bow", 5.2),
+              Character("Ororon", "Natlan", "Electro", "Bow", 5.2),
+              Character("Mavuika", "Natlan", "Pyro", "Claymore", 5.3),
+              Character("Citlali", "Natlan", "Cryo", "Catalyst", 5.3),
+              # Character("Lan Yan", "Liyue", "Anemo", "Catalyst", 5.3),
               }
 
 
