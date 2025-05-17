@@ -123,7 +123,9 @@ characters = {Character("Amber", "mondstadt", "Pyro", "Bow", 1.0),
               Character("Lan Yan", "Liyue", "Anemo", "Catalyst", 5.3),
               Character("Mizuki", "Inazuma", "Anemo", "Catalyst", 5.4),
               Character("Varesa", "Natlan", "Electro", "Catalyst", 5.5),
-              Character("Iansan", "Natlan", "Electro", "Polearm", 5.5)
+              Character("Iansan", "Natlan", "Electro", "Polearm", 5.5),
+              Character("Ifa", "Natlan", "Anemo", "Catalyst", 5.6),
+              Character("Escoffier", "Fontaine", "Cryo", "Polearm", 5.6),
               }
 
 
